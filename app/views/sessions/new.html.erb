@@ -1,0 +1,12 @@
+
+<% if !current_user %>
+  <%= form_tag "/login", method: :post do %>
+    <%= label_tag :email %>
+    <%= text_field_tag :email %>
+    <%= label_tag :password %>
+    <%= password_field_tag :password %>
+    <%= submit_tag "Sign In" %>
+  <% end %>
+<% else %>
+  <%= user_redirect(current_user) %>
+<% end %>

@@ -97,7 +97,6 @@ RSpec.describe "New User Form" do
       expect(page).to have_selector("input[value='Broomfield']")
       expect(page).to have_selector("input[value='CO']")
       expect(page).to have_selector("input[value='80020']")
-      save_and_open_page
     end
   end
 end
