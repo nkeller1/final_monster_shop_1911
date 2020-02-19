@@ -120,7 +120,7 @@ RSpec.describe 'Site Navigation' do
           expect(page).not_to have_link("Register")
           click_link("Dashboard")
         end
-        expect(current_path).to eq('/merchant/dashboard')
+        expect(current_path).to eq('/merchant')
       end
     end
     describe "As a admin user" do
@@ -149,8 +149,8 @@ RSpec.describe 'Site Navigation' do
           expect(page).not_to have_link("Register")
           click_link("Dashboard")
         end
-        expect(current_path).to eq('/admin/dashboard')
+        expect(current_path).to eq('/admin')
       end
-    end 
+    end
   end
 end

@@ -13,9 +13,9 @@ class ApplicationController < ActionController::Base
 
   def user_redirect(user)
     if user.admin_user?
-      redirect_to "/admin/dashboard"
+      redirect_to "/admin"
     elsif user.merchant_user?
-      redirect_to "/merchant/dashboard"
+      redirect_to "/merchant"
     else
       redirect_to "/profile"
     end
