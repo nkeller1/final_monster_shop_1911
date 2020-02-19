@@ -66,5 +66,46 @@ RSpec.describe 'Site Navigation' do
         expect(current_path).to eq('/register')
       end
     end
+
+    describe 'As a default user' do
+      it "I see two additonal links, my profile page and log out" do
+        default_user = ({
+          name: "Paul D",
+          address: "123 Main St.",
+          city: "Broomfield",
+          state: "CO",
+          zip: "80020",
+          email: "pauld@gmail.com",
+          password: "supersecure1",
+          role: 0
+          })
+
+
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(default_user)
+
+        visit root_path
+
+        within 'nav' do
+          expect(page).not_to have_content("Login")
+          expect(page).not_to have_link("Register")
+          expect(page).to have_link("My Profile")
+          expect(page).to have_link("Logout")
+          expect(page).to have_content("Logged in as #{default_user[:name]}")
+        end
+      end
+    end
   end
 end
+
+# User Story 3, User Navigation
+#
+# As a default user
+# I see the same links as a visitor
+# Plus the following links
+# - a link to my profile page ("/profile")
+# - a link to log out ("/logout")
+#
+# Minus the following links
+# - I do not see a link to log in or register
+#
+# I also see text that says "Logged in as Mike Dao" (or whatever my name is)
