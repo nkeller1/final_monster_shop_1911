@@ -20,6 +20,8 @@ RSpec.describe "as a visitor I can log in" do
         click_button "Sign In"
         expect(current_path).to eq("/profile")
         expect(page).to have_content("Welcome, #{default_user[:name]}")
+        visit '/login'
+        expect(current_path).to eq("/profile")
     end
     it "sees a flash message when login information is incorrect" do
       default_user = User.create({
@@ -58,6 +60,8 @@ RSpec.describe "as a visitor I can log in" do
         click_button "Sign In"
         expect(current_path).to eq("/merchant/dashboard")
         expect(page).to have_content("Welcome, #{merchant_user[:name]}!")
+        visit '/login'
+        expect(current_path).to eq("/merchant/dashboard")
     end
     it "as a admin user I see a field to enter my email and password" do
       admin_user = User.create({
@@ -77,6 +81,8 @@ RSpec.describe "as a visitor I can log in" do
         click_button "Sign In"
         expect(current_path).to eq("/admin/dashboard")
         expect(page).to have_content("Welcome, #{admin_user[:name]}!")
+        visit '/login'
+        expect(current_path).to eq("/admin/dashboard")
     end
   end
 end
