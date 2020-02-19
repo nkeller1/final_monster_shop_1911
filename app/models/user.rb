@@ -4,5 +4,5 @@ class User < ApplicationRecord
   validates :password, confirmation: { case_sensitive: true }
   has_secure_password
 
-  enum role: %w(default_user, merchant_user, admin_user)
+  enum role: %w(default_user merchant_user admin_user)
 end

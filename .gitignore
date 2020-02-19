@@ -18,3 +18,4 @@ coverage
 /yarn-error.log
 
 .byebug_history
+.ruby-version
