@@ -69,7 +69,7 @@ RSpec.describe 'Site Navigation' do
 
     describe 'As a default user' do
       it "I see two additonal links, my profile page and log out" do
-        default_user = ({
+        default_user = User.create({
           name: "Paul D",
           address: "123 Main St.",
           city: "Broomfield",
