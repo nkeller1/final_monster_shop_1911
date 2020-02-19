@@ -94,5 +94,63 @@ RSpec.describe 'Site Navigation' do
         end
       end
     end
+
+    describe "As a merchant user" do
+      it "I can see default user links as well as link to merchant dashboard" do
+        merchant_user = User.create({
+          name: "Maria R",
+          address: "321 Notmain Rd.",
+          city: "Broomfield",
+          state: "CO",
+          zip: "80020",
+          email: "mariar@example.com",
+          password: "supersecure1",
+          role: 1
+          })
+
+          visit "/login"
+          fill_in :email, with: merchant_user[:email]
+          fill_in :password, with: "supersecure1"
+          click_button "Sign In"
+
+        within 'nav' do
+          expect(page).to have_link("My Profile")
+          expect(page).to have_link("Logout")
+          expect(page).not_to have_content("Login")
+          expect(page).not_to have_link("Register")
+          click_link("Dashboard")
+        end
+        expect(current_path).to eq('/merchant')
+      end
+    end
+    describe "As a admin user" do
+      it "I can see default user links as well as link to merchant dashboard" do
+        admin_user = User.create({
+          name: "Dave H",
+          address: "321 Notmain Rd.",
+          city: "Broomfield",
+          state: "CO",
+          zip: "80020",
+          email: "davidh@example.com",
+          password: "supersecure1",
+          role: 2
+          })
+
+
+          visit "/login"
+          fill_in :email, with: admin_user[:email]
+          fill_in :password, with: "supersecure1"
+          click_button "Sign In"
+
+        within 'nav' do
+          expect(page).to have_link("My Profile")
+          expect(page).to have_link("Logout")
+          expect(page).not_to have_content("Login")
+          expect(page).not_to have_link("Register")
+          click_link("Dashboard")
+        end
+        expect(current_path).to eq('/admin')
+      end
+    end
   end
 end

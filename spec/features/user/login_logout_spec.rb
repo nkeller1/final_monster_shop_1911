@@ -60,10 +60,10 @@ RSpec.describe "as a visitor I can log in" do
         fill_in :email, with: merchant_user[:email]
         fill_in :password, with: "supersecure1"
         click_button "Sign In"
-        expect(current_path).to eq("/merchant/dashboard")
+        expect(current_path).to eq("/merchant")
         expect(page).to have_content("Welcome, #{merchant_user[:name]}!")
         visit '/login'
-        expect(current_path).to eq("/merchant/dashboard")
+        expect(current_path).to eq("/merchant")
     end
 
     it "as a admin user I see a field to enter my email and password" do
@@ -82,10 +82,10 @@ RSpec.describe "as a visitor I can log in" do
         fill_in :email, with: admin_user[:email]
         fill_in :password, with: "supersecure1"
         click_button "Sign In"
-        expect(current_path).to eq("/admin/dashboard")
+        expect(current_path).to eq("/admin")
         expect(page).to have_content("Welcome, #{admin_user[:name]}!")
         visit '/login'
-        expect(current_path).to eq("/admin/dashboard")
+        expect(current_path).to eq("/admin")
     end
 
     it "can log out" do
