@@ -18,6 +18,10 @@
         <%= link_to "Register", '/register' %>
         <%= link_to "Login", '/login' %>
       <% else %>
+        <% if current_user.merchant_user? || current_user.admin_user?%>
+          <%= link_to "Dashboard", '/merchant/dashboard' if current_user.merchant_user? %>
+          <%= link_to "Dashboard", '/admin/dashboard' if current_user.admin_user? %>
+        <% end %>
         <%= link_to "My Profile", '/profile' %>
         <%= link_to "Logout", '/logout', method: :delete %>
         <%= "Logged in as #{current_user[:name]}" %>
