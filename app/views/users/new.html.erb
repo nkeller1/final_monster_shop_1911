@@ -1,3 +1,11 @@
 <%= render partial: "form", locals: {path: "/register",
     method: :post,
+    name: (@new_user.name if @new_user),
+    address: (@new_user.address if @new_user),
+    city: (@new_user.city if @new_user),
+    state: (@new_user.state if @new_user),
+    zip: (@new_user.zip if @new_user),
+    email: nil,
+    password: nil,
+    confirm_password: nil,
     button_text: "Submit Form"}  %>
