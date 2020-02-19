@@ -33,5 +33,31 @@ RSpec.describe "New User Form" do
     expect(current_path).to eq('/profile')
     expect(page).to have_content("Profile Successfully Created!")
     end
+
+    it "shows message when form is not filled out properly" do
+      visit '/register'
+
+      new_user = ({name: "Paul D",
+                address: "123 Main St.",
+                city: "Broomfield",
+                state: "CO",
+                zip: "80020",
+                email: "pauld@gmail.com",
+                password: "supersecure1"})
+
+      fill_in :name, with: ""
+      fill_in :address, with: new_user[:address]
+      fill_in :city, with: new_user[:city]
+      fill_in :state, with: ""
+      fill_in :zip, with: new_user[:zip]
+      fill_in :email, with: new_user[:email]
+      fill_in :password, with: new_user[:password]
+      fill_in :confirm_password, with: new_user[:password]
+
+      click_button "Submit Form"
+
+      expect(current_path).to eq('/register')
+      expect(page).to have_content("Name can't be blank and State can't be blank")
+    end
   end
 end
