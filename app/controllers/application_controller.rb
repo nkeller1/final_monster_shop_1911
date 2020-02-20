@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  helper_method :cart, :current_user, :user_redirect
+  helper_method :cart, :current_user, :user_redirect, :no_admin, :authorize
 
   def cart
     @cart ||= Cart.new(session[:cart] ||= Hash.new(0))
@@ -19,5 +19,13 @@ class ApplicationController < ActionController::Base
     else
       redirect_to "/profile"
     end
+  end
+
+  def authorize
+    render file: "/public/404" if current_user.nil?
+  end
+
+  def no_admin
+    render file: "/public/404" if current_user && current_user.role == 'admin user'
   end
 end
