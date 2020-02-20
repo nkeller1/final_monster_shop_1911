@@ -30,6 +30,6 @@ before_action :no_admin
   #   redirect_to "/cart"
   # end
   def no_admin
-    render file: "/public/404" if current_user != nil && current_user.admin_user?
+    render file: "/public/404" if !current_user.nil? && current_user.admin_user?
   end
 end

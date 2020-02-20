@@ -5,6 +5,6 @@ class Merchant::DashboardController < ApplicationController
   end
 
   def require_merchant
-    render file: "/public/404" if current_user == nil || !current_user.merchant_user?
+    render file: "/public/404" if current_user.nil? || !current_user.merchant_user?
   end
 end
