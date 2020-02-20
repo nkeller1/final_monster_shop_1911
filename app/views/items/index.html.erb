@@ -10,13 +10,13 @@
   <section id='stats-top-5'>
     <h3>Top 5 Most Popular Items</h3>
     <% @items.top_5_items.each do |item| %>
-      <p><%= item.name %>: <%= item.total_quantity %> Purchased</p>
+      <li><%= item.name %>: <%= item.total_quantity %> Purchased</li>
     <% end %>
   </section>
   <section id='stats-bottom-5'>
     <h3>5 Least Popular Items</h3>
     <% @items.bottom_5_items.each do |item| %>
-      <p><%= item.name %>: <%= item.total_quantity %> Purchased</p>
+      <li><%= item.name %>: <%= item.total_quantity %> Purchased</li>
     <% end %>
   </section>
 </section>

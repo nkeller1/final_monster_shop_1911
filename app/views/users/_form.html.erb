@@ -10,10 +10,13 @@
   <%= label_tag :zip %>
   <%= text_field_tag :zip, zip %>
   <%= label_tag :email %>
-  <%= text_field_tag :email %>
-  <%= label_tag :password %>
-  <%= text_field_tag :password %>
-  <%= label_tag :confirm_password %>
-  <%= text_field_tag :confirm_password %>
+  <%= text_field_tag :email, email %>
+  <% if action_name == 'new' || action_name == 'create' %>
+    <%= label_tag :password %>
+    <%= password_field_tag :password %>
+    <%= label_tag :password_confirmation %>
+    <%= password_field_tag :password_confirmation %>
+  <% elsif action_name == 'edit' %>
+  <% end %>
   <%= submit_tag button_text %>
 <% end %>
