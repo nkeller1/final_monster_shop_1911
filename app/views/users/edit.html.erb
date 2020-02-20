@@ -1,0 +1,9 @@
+<%= render partial: "form", locals: {path: "/profile",
+    method: :patch,
+    name: (@user.name if @user),
+    address: (@user.address if @user),
+    city: (@user.city if @user),
+    state: (@user.state if @user),
+    zip: (@user.zip if @user),
+    email: (@user.email if @user),
+    button_text: "Update Profile"}  %>
