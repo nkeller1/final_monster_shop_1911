@@ -11,7 +11,6 @@ before_action :no_admin
     @items = cart.items
   end
 
-  private
     def empty
       session.delete(:cart)
       redirect_to '/cart'
