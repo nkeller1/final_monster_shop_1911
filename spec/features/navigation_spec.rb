@@ -103,6 +103,7 @@ RSpec.describe 'Site Navigation' do
         end
       end
       it "I see an error when when I visit '/merchant' or '/admin' paths" do
+
         visit '/admin'
         expect(page).to have_content("The page you were looking for doesn't exist.")
         visit '/merchant'
