@@ -19,8 +19,7 @@ RSpec.describe "Items Index Page" do
       expect(page).to have_link(@tire.merchant.name)
       expect(page).to have_link(@pull_toy.name)
       expect(page).to have_link(@pull_toy.merchant.name)
-      expect(page).to have_link(@dog_bone.name)
-      expect(page).to have_link(@dog_bone.merchant.name)
+      expect(page).not_to have_link(@dog_bone.name)
     end
 
     it "I can see a list of all of the items "do
@@ -47,14 +46,36 @@ RSpec.describe "Items Index Page" do
         expect(page).to have_css("img[src*='#{@pull_toy.image}']")
       end
 
-      within "#item-#{@dog_bone.id}" do
-        expect(page).to have_link(@dog_bone.name)
-        expect(page).to have_content(@dog_bone.description)
-        expect(page).to have_content("Price: $#{@dog_bone.price}")
-        expect(page).to have_content("Inactive")
-        expect(page).to have_content("Inventory: #{@dog_bone.inventory}")
-        expect(page).to have_link(@brian.name)
-        expect(page).to have_css("img[src*='#{@dog_bone.image}']")
+      expect(page).not_to have_link(@dog_bone.name)
+      expect(page).not_to have_content(@dog_bone.description)
+      expect(page).not_to have_css("img[src*='#{@dog_bone.image}']")
+    end
+
+    it "item images link to that items show page" do
+      visit '/items'
+
+      within "#item-#{@pull_toy.id}" do
+        find(:xpath, "//a/img[@alt='Tug toy dog pull 9010 2 800x800']/..").click
+      end
+      expect(current_path).to eq("/items/#{@pull_toy.id}")
+    end
+
+    describe "I see an area with statistics" do
+      it "Shows the top 5 most popular items by quantity purchased, plus quantity bought" do
+        order_1 = Order.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
+
+        order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
+
+        visit '/items'
+
+        within "#statistics" do
+          expect(page).to have_content("Statistics")
+        end
+
+        within "#stats-top-5" do
+          expect(page).to have_content("Top 5 Most Popular Items")
+          expect(page).to have_content("#{@tire.name}: 2 Purchased")
+        end
       end
     end
   end
