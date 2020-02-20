@@ -67,9 +67,18 @@ RSpec.describe 'Site Navigation' do
       end
     end
 
+      it "I see an error when when I visit '/merchant', '/admin' or '/profile' paths" do
+        visit '/admin'
+        expect(page).to have_content("The page you were looking for doesn't exist.")
+        visit '/merchant'
+        expect(page).to have_content("The page you were looking for doesn't exist.")
+        visit '/profile'
+        expect(page).to have_content("The page you were looking for doesn't exist.")
+      end
+
     describe 'As a default user' do
-      it "I see two additonal links, my profile page and log out" do
-        default_user = User.create({
+      before(:each) do
+        @default_user = User.create({
           name: "Paul D",
           address: "123 Main St.",
           city: "Broomfield",
@@ -79,9 +88,9 @@ RSpec.describe 'Site Navigation' do
           password: "supersecure1",
           role: 0
           })
-
-
-        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(default_user)
+          allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@default_user)
+      end
+      it "I see two additonal links, my profile page and log out" do
 
         visit root_path
 
@@ -90,14 +99,20 @@ RSpec.describe 'Site Navigation' do
           expect(page).not_to have_link("Register")
           expect(page).to have_link("My Profile")
           expect(page).to have_link("Logout")
-          expect(page).to have_content("Logged in as #{default_user[:name]}")
+          expect(page).to have_content("Logged in as #{@default_user[:name]}")
         end
+      end
+      it "I see an error when when I visit '/merchant' or '/admin' paths" do
+        visit '/admin'
+        expect(page).to have_content("The page you were looking for doesn't exist.")
+        visit '/merchant'
+        expect(page).to have_content("The page you were looking for doesn't exist.")
       end
     end
 
     describe "As a merchant user" do
-      it "I can see default user links as well as link to merchant dashboard" do
-        merchant_user = User.create({
+      before(:each) do
+        @merchant_user = User.create({
           name: "Maria R",
           address: "321 Notmain Rd.",
           city: "Broomfield",
@@ -107,9 +122,11 @@ RSpec.describe 'Site Navigation' do
           password: "supersecure1",
           role: 1
           })
+      end
+      it "I can see default user links as well as link to merchant dashboard" do
 
           visit "/login"
-          fill_in :email, with: merchant_user[:email]
+          fill_in :email, with: @merchant_user[:email]
           fill_in :password, with: "supersecure1"
           click_button "Sign In"
 
@@ -122,10 +139,15 @@ RSpec.describe 'Site Navigation' do
         end
         expect(current_path).to eq('/merchant')
       end
+      it "I see an error when when I visit '/admin' paths" do
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_user)
+        visit '/admin'
+        expect(page).to have_content("The page you were looking for doesn't exist.")
+      end
     end
     describe "As a admin user" do
-      it "I can see default user links as well as link to merchant dashboard" do
-        admin_user = User.create({
+      before(:each) do
+        @admin_user = User.create({
           name: "Dave H",
           address: "321 Notmain Rd.",
           city: "Broomfield",
@@ -135,10 +157,11 @@ RSpec.describe 'Site Navigation' do
           password: "supersecure1",
           role: 2
           })
-
+      end
+      it "I can see default user links as well as link to merchant dashboard" do
 
           visit "/login"
-          fill_in :email, with: admin_user[:email]
+          fill_in :email, with: @admin_user[:email]
           fill_in :password, with: "supersecure1"
           click_button "Sign In"
 
@@ -150,6 +173,13 @@ RSpec.describe 'Site Navigation' do
           click_link("Dashboard")
         end
         expect(current_path).to eq('/admin')
+      end
+      it "I see an error when when I visit '/merchant' or '/cart' paths" do
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin_user)
+        visit '/merchant'
+        expect(page).to have_content("The page you were looking for doesn't exist.")
+        visit '/cart'
+        expect(page).to have_content("The page you were looking for doesn't exist.")
       end
     end
   end
