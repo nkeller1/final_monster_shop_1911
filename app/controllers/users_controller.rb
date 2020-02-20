@@ -15,10 +15,26 @@ class UsersController < ApplicationController
   end
 
   def show
-    if session[:user_id].nil?
+    if current_user.nil?
       render file: "/public/404"
     else
       @user = User.find(session[:user_id])
+    end
+  end
+
+  def edit
+    @user = User.find(session[:user_id])
+  end
+
+  def update
+    user = User.find(session[:user_id])
+    user.update(user_params)
+    if user.save
+      flash[:success] = "Your Profile has been Updated!"
+      redirect_to "/profile"
+    else
+      flash[:error] = "Email address is already in use."
+      render :edit
     end
   end
 
