@@ -26,7 +26,7 @@ RSpec.describe "New User Form" do
     fill_in :zip, with: new_user[:zip]
     fill_in :email, with: new_user[:email]
     fill_in :password, with: new_user[:password]
-    fill_in :confirm_password, with: new_user[:password]
+    fill_in :password_confirmation, with: new_user[:password]
 
     click_button "Submit Form"
 
@@ -52,7 +52,7 @@ RSpec.describe "New User Form" do
       fill_in :zip, with: new_user[:zip]
       fill_in :email, with: new_user[:email]
       fill_in :password, with: new_user[:password]
-      fill_in :confirm_password, with: new_user[:password]
+      fill_in :password_confirmation, with: new_user[:password]
 
       click_button "Submit Form"
 
@@ -86,7 +86,7 @@ RSpec.describe "New User Form" do
       fill_in :zip, with: new_user[:zip]
       fill_in :email, with: "pauld@gmail.com"
       fill_in :password, with: new_user[:password]
-      fill_in :confirm_password, with: new_user[:password]
+      fill_in :password_confirmation, with: new_user[:password]
 
       click_button "Submit Form"
 
