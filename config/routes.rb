@@ -39,6 +39,8 @@ Rails.application.routes.draw do
   get '/register', to: 'users#new'
   post '/register', to: 'users#create'
   get '/profile', to: 'users#show'
+  get '/profile/edit', to: 'users#edit'
+  patch '/profile', to: 'users#update'
 
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
@@ -52,7 +54,7 @@ Rails.application.routes.draw do
     get '/', to: 'dashboard#index'
   end
 
-  namespace :default do
-    get '/', to: 'dashboard#index'
-  end
+  # namespace :default do
+  #   get '/', to: 'dashboard#index'
+  # end
 end
