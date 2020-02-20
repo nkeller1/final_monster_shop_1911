@@ -34,7 +34,7 @@ class UsersController < ApplicationController
       redirect_to "/profile"
     else
       flash[:error] = "Email address is already in use."
-      render :edit
+      redirect_to "/profile/edit"
     end
   end
 

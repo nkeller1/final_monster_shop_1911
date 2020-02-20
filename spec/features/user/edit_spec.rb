@@ -119,7 +119,7 @@ RSpec.describe "As a User" do
         role: 0
         })
 
-        fake_user = User.create({
+        another_user = User.create({
           name: "Paul D",
           address: "123 Main St.",
           city: "Broomfield",
@@ -140,9 +140,11 @@ RSpec.describe "As a User" do
 
         click_link "Edit Profile"
 
-        fill_in :email, with: "paulyD@gmail.com"
+        fill_in :email, with: another_user.email
 
-        expect(page).to have_content("Email has already been taken")
+        click_on "Update Profile"
+
+        expect(page).to have_content("Email address is already in use.")
         expect(current_path).to eq("/profile/edit")
     end
   end
