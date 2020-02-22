@@ -112,21 +112,22 @@ RSpec.describe 'Cart show' do
         end
       end
 
-      xit "doesn't allow me to increment the items in my cart past inventory limit" do
-        tire = @meg.items.create(
-          name: "Gatorskins",
-          description: "They'll never pop!",
+      it "doesn't allow me to increment the items in my cart past inventory limit" do
+        frog = @meg.items.create(
+          name: "Frog",
+          description: "It's a Frog!",
           price: 100,
-          image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588",
+          image: "https://cdn.mos.cms.futurecdn.net/rqoDpnCCrdpGFHM6qky3rS-1200-80.jpg",
           inventory: 3
         )
 
-        visit "/items/#{tire.id}"
+        visit "/items/#{frog.id}"
+        
         click_on "Add To Cart"
 
         visit '/cart'
 
-        within "#cart-item-#{tire.id}" do
+        within "#cart-item-#{frog.id}" do
           expect(page).to have_content("1")
           click_on ("+")
           expect(page).to have_content("2")
@@ -135,10 +136,11 @@ RSpec.describe 'Cart show' do
           click_on ("-")
         end
 
-        expect(page).not_to have_content(tire.name)
+        expect(page).not_to have_content(frog.name)
       end
     end
   end
+
   describe "When I haven't added anything to my cart" do
     describe "and visit my cart show page" do
       it "I see a message saying my cart is empty" do
@@ -151,7 +153,6 @@ RSpec.describe 'Cart show' do
         visit '/cart'
         expect(page).to_not have_link("Empty Cart")
       end
-
     end
   end
 end

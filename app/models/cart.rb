@@ -36,9 +36,15 @@ class Cart
     @contents[item] += 1
   end
 
+  def subtract_quantity(item)
+    @contents[item] -= 1
+  end
+
   def limit_reached?(item)
-    if @contents[item] == (Item.find(item).inventory)
-      @contents[item] = @contents[item]
-    end
+    return @contents[item] if @contents[item] == (Item.find(item).inventory)
+  end
+
+  def quantity_zero?(item)
+    return true if @contents[item] == 0
   end
 end
