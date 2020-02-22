@@ -62,7 +62,17 @@ RSpec.describe "Items Index Page" do
 
     describe "I see an area with statistics" do
       it "Shows the top 5 most popular items by quantity purchased, plus quantity bought" do
-        order_1 = Order.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
+        default_user_1 = User.create({
+          name: "Paul D",
+          address: "123 Main St.",
+          city: "Broomfield",
+          state: "CO",
+          zip: "80020",
+          email: "pauld@example.com",
+          password: "supersecure1",
+          role: 0
+          })
+        order_1 = Order.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033, user_id: "#{default_user_1.id}")
 
         order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
 
