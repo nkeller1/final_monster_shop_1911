@@ -70,7 +70,7 @@ RSpec.describe 'Cart show' do
         end
       end
 
-      xit "doesn't allow me to increment the items in my cart past inventory limit" do
+      it "doesn't allow me to increment the items in my cart past inventory limit" do
         tire = @meg.items.create(
           name: "Gatorskins",
           description: "They'll never pop!",
@@ -92,7 +92,6 @@ RSpec.describe 'Cart show' do
           expect(page).to have_content("3")
           click_on ("+")
           expect(page).to have_content("3")
-          expect(page).to have_content("No more items in inventroy.")
         end
       end
     end
