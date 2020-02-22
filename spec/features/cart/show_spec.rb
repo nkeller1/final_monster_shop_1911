@@ -55,6 +55,46 @@ RSpec.describe 'Cart show' do
 
         expect(page).to have_content("Total: $124")
       end
+
+      it "allows me to increment the items in my cart" do
+
+        visit "/items/#{@pencil.id}"
+        click_on "Add To Cart"
+
+        visit '/cart'
+
+        within "#cart-item-#{@pencil.id}" do
+          expect(page).to have_content("2")
+          click_on ("+")
+          expect(page).to have_content("3")
+        end
+      end
+
+      xit "doesn't allow me to increment the items in my cart past inventory limit" do
+        tire = @meg.items.create(
+          name: "Gatorskins",
+          description: "They'll never pop!",
+          price: 100,
+          image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588",
+          inventory: 3
+        )
+
+        visit "/items/#{tire.id}"
+        click_on "Add To Cart"
+
+        visit '/cart'
+
+        within "#cart-item-#{tire.id}" do
+          expect(page).to have_content("1")
+          click_on ("+")
+          expect(page).to have_content("2")
+          click_on ("+")
+          expect(page).to have_content("3")
+          click_on ("+")
+          expect(page).to have_content("3")
+          expect(page).to have_content("No more items in inventroy.")
+        end
+      end
     end
   end
   describe "When I haven't added anything to my cart" do
