@@ -61,7 +61,7 @@ RSpec.describe "Registered User Profile Page" do
                             state: "#{@default_user_2.state}",
                             zip: "#{@default_user_2.zip}",
                             user_id: "#{@default_user_2.id}")
-                            
+
     item_order_1 = order_1.item_orders.create!(item: paper, price: paper.price, quantity: 2)
     item_order_2 = order_1.item_orders.create!(item: pencil, price: pencil.price, quantity: 2)
 
@@ -70,6 +70,7 @@ RSpec.describe "Registered User Profile Page" do
     fill_in :password, with: "supersecure1"
     click_button "Sign In"
 
+    expect(current_path).to eq('/profile')
     click_on 'My Orders'
 
     expect(current_path).to eq('/profile/orders')
@@ -82,11 +83,6 @@ RSpec.describe "Registered User Profile Page" do
     click_button "Sign In"
 
     expect(page).not_to have_content("My Orders")
+    expect(page).to have_content("You Have No Orders")
   end
 end
-
-# As a registered user
-# When I visit my Profile page
-# And I have orders placed in the system
-# Then I see a link on my profile page called "My Orders"
-# When I click this link my URI path is "/profile/orders"
