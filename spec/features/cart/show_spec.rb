@@ -19,6 +19,15 @@ RSpec.describe 'Cart show' do
         @items_in_cart = [@paper,@tire,@pencil]
       end
 
+      it "I must be registered or logged in to checkout" do
+        visit '/cart'
+
+        expect(page).to have_content("You must register or be logged in to checkout.")
+        expect(page).to have_link("Register")
+        expect(page).to have_link("Login")
+        expect(page).not_to have_link("Checkout")
+      end
+
       it 'I can empty my cart by clicking a link' do
         visit '/cart'
         expect(page).to have_link("Empty Cart")
@@ -122,7 +131,7 @@ RSpec.describe 'Cart show' do
         )
 
         visit "/items/#{frog.id}"
-        
+
         click_on "Add To Cart"
 
         visit '/cart'
