@@ -39,5 +39,29 @@ describe Order, type: :model do
     it 'grandtotal' do
       expect(@order_1.grandtotal).to eq(230)
     end
+
+    it 'test order status' do
+      default_user_1 = User.create!({
+        name: "Paul D",
+        address: "123 Main St.",
+        city: "Broomfield",
+        state: "CO",
+        zip: "80020",
+        email: "mariar@example.com",
+        password: "supersecure1",
+        role: 0
+        })
+      order_1 = default_user_1.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033, status: 0)
+
+      expect(order_1.status).to eq("Pending")
+
+      order_2 = default_user_1.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033, status: 1)
+
+      expect(order_2.status).to eq("Shipped")
+
+      order_3 = default_user_1.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033, status: 2)
+
+      expect(order_3.status).to eq("Cancelled")
+    end
   end
 end

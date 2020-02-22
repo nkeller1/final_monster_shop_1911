@@ -106,10 +106,7 @@ RSpec.describe("Order Creation") do
 
       click_on "Create Order"
 
-      new_order = Order.last
-      expect(page).to have_content(new_order.created_at)
-
-      expect(current_path).to eq("/orders/#{new_order.id}")
+      expect(current_path).to eq("/profile/orders")
     end
 
     it 'i cant create order if info not filled out' do
