@@ -27,16 +27,50 @@ leash = dog_shop.items.create(name: "Dog Leash", description: "They'll Probably 
 dog_food = dog_shop.items.create(name: "Dog Food", description: "Food is good", price: 42, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", inventory: 43)
 food_bowl = dog_shop.items.create(name: "Food Bowl", description: "where doggos eat", price: 31, image: "https://img.chewy.com/is/image/catalog/54226_MAIN._AC_SL1500_V1534449573_.jpg", inventory: 52)
 
-order_1 = Order.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
-order_2 = Order.create!(name: 'Jon', address: '123 Jon Ave', city: 'Cool', state: 'CO', zip: 32525)
-order_3 = Order.create!(name: 'Jacob', address: '123 Jacob Street', city: 'Places', state: 'WY', zip: 23652)
-order_4 = Order.create!(name: 'Jingle', address: '123 Jingle Way', city: 'To', state: 'FL', zip: 23553)
-order_5 = Order.create!(name: 'Hymer', address: '123 Hymer Schmitt', city: 'Live', state: 'CA', zip: 45332)
 
-order_1.item_orders.create!(item: tire, price: tire.price, quantity: 2)
-order_1.item_orders.create!(item: paper, price: paper.price, quantity: 3)
-order_2.item_orders.create!(item: pencil, price: pencil.price, quantity: 1)
-order_3.item_orders.create!(item: pull_toy, price: pull_toy.price, quantity: 3)
-order_3.item_orders.create!(item: dog_bone, price: dog_bone.price, quantity: 5)
-order_4.item_orders.create!(item: dog_food, price: dog_food.price, quantity: 7)
-order_5.item_orders.create!(item: bike, price: bike.price, quantity: 1)
+default_user = User.create({
+  name: "Default User",
+  address: "123 Main St.",
+  city: "Broomfield",
+  state: "CO",
+  zip: "80020",
+  email: "default@example.com",
+  password: "password",
+  role: 0
+  })
+
+merchant_user = User.create({
+  name: "Merchant User",
+  address: "123 Main St.",
+  city: "Broomfield",
+  state: "CO",
+  zip: "80020",
+  email: "merchant@example.com",
+  password: "password",
+  role: 1
+  })
+
+admin_user = User.create({
+  name: "Admin User",
+  address: "123 Main St.",
+  city: "Broomfield",
+  state: "CO",
+  zip: "80020",
+  email: "admin@example.com",
+  password: "password",
+  role: 2
+  })
+
+  order_1 = default_user.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
+  order_2 = default_user.orders.create!(name: 'Jon', address: '123 Jon Ave', city: 'Cool', state: 'CO', zip: 32525)
+  order_3 = default_user.orders.create!(name: 'Jacob', address: '123 Jacob Street', city: 'Places', state: 'WY', zip: 23652)
+  order_4 = default_user.orders.create!(name: 'Jingle', address: '123 Jingle Way', city: 'To', state: 'FL', zip: 23553)
+  order_5 = default_user.orders.create!(name: 'Hymer', address: '123 Hymer Schmitt', city: 'Live', state: 'CA', zip: 45332)
+
+  order_1.item_orders.create!(item: tire, price: tire.price, quantity: 2)
+  order_1.item_orders.create!(item: paper, price: paper.price, quantity: 3)
+  order_2.item_orders.create!(item: pencil, price: pencil.price, quantity: 1)
+  order_3.item_orders.create!(item: pull_toy, price: pull_toy.price, quantity: 3)
+  order_3.item_orders.create!(item: dog_bone, price: dog_bone.price, quantity: 5)
+  order_4.item_orders.create!(item: dog_food, price: dog_food.price, quantity: 7)
+  order_5.item_orders.create!(item: bike, price: bike.price, quantity: 1)

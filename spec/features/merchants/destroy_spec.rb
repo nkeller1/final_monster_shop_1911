@@ -36,15 +36,6 @@ RSpec.describe "As a visitor" do
       pulltoy = brian.items.create(name: "Pulltoy", description: "It'll never fall apart!", price: 14, image: "https://www.valupets.com/media/catalog/product/cache/1/image/650x/040ec09b1e35df139433887a97daa66f/l/a/large_rubber_dog_pull_toy.jpg", inventory: 7)
 
 
-      visit "/items/#{paper.id}"
-      click_on "Add To Cart"
-      visit "/items/#{paper.id}"
-      click_on "Add To Cart"
-      visit "/items/#{tire.id}"
-      click_on "Add To Cart"
-      visit "/items/#{pencil.id}"
-      click_on "Add To Cart"
-
       default_user = User.create({
         name: "Paul D",
         address: "123 Main St.",
@@ -56,34 +47,12 @@ RSpec.describe "As a visitor" do
         role: 0
         })
 
-      visit "/login"
-      fill_in :email, with: default_user[:email]
-      fill_in :password, with: "supersecure1"
-      click_button "Sign In"
+      order_1 = default_user.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
+      order_1.item_orders.create!(item: pencil, price: pencil.price, quantity: 2)
+      order_1.item_orders.create!(item: paper, price: paper.price, quantity: 3)
 
-
-      visit "/cart"
-      click_on "Checkout"
-
-      name = "Bert"
-      address = "123 Sesame St."
-      city = "NYC"
-      state = "New York"
-      zip = 10001
-
-      fill_in :name, with: name
-      fill_in :address, with: address
-      fill_in :city, with: city
-      fill_in :state, with: state
-      fill_in :zip, with: zip
-
-      click_button "Create Order"
-
-      visit "/merchants/#{meg.id}"
+      visit "/merchants/#{mike.id}"
       expect(page).to_not have_link("Delete Merchant")
-
-      # visit "/merchants/#{brian.id}"
-      # expect(page).to have_link("Delete Merchant")
     end
   end
 end
