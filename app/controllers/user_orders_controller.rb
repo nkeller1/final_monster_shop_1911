@@ -7,4 +7,8 @@ class UserOrdersController < ApplicationController
       render 'errors/404'
     end
   end
+
+  def show
+    @order = Order.find(params[:order_id])
+  end
 end

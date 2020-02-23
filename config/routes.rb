@@ -51,6 +51,7 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
 
   get '/profile/orders', to: 'user_orders#index'
+  get '/profile/orders/:order_id', to: 'user_orders#show'
 
   namespace :merchant do
     get '/', to: 'dashboard#index'
