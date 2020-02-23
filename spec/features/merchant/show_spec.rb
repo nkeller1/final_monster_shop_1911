@@ -15,6 +15,7 @@ RSpec.describe "on a merchant dashboard show page" do
         role: 1,
         merchant: @bike_shop
         })
+        @order_1 = Order.new
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_user)
     end
     it "I can see the name and address of the merchant I work for" do
@@ -26,13 +27,12 @@ RSpec.describe "on a merchant dashboard show page" do
       expect(page).to have_content(@bike_shop.zip)
     end
 
-    it "I can see pending orders containing items I sell" do
-      visit "/merchant"
-
-    end
+    # it "I can see pending orders containing items I sell" do
+    #   visit "/merchant"
+    #
+    # end
   end
 end
-#
 # User Story 35, Merchant Dashboard displays Orders
 #
 # As a merchant employee

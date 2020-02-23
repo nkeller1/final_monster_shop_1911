@@ -20,4 +20,14 @@ class SessionsController < ApplicationController
     flash[:message] = "You have logged out."
     redirect_to '/'
   end
+
+  def user_redirect(user)
+    if user.admin_user?
+      redirect_to "/admin"
+    elsif user.merchant_user?
+      redirect_to "/merchant"
+    else
+      redirect_to "/profile"
+    end
+  end
 end

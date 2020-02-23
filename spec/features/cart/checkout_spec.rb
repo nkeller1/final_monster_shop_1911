@@ -18,14 +18,31 @@ RSpec.describe 'Cart show' do
       @items_in_cart = [@paper,@tire,@pencil]
     end
 
-    it 'Theres a link to checkout' do
+    it 'Theres a link to checkout if Im signed in' do
       visit "/cart"
 
+      expect(page).not_to have_link("Checkout")
+
+      default_user = User.create({
+        name: "Paul D",
+        address: "123 Main St.",
+        city: "Broomfield",
+        state: "CO",
+        zip: "80020",
+        email: "pauld@gmail.com",
+        password: "supersecure1",
+        role: 0
+        })
+
+        visit "/login"
+        fill_in :email, with: default_user[:email]
+        fill_in :password, with: "supersecure1"
+        click_button "Sign In"
+
+      visit '/cart'
+
+      expect(page).to_not have_content("Please register or log in to checkout.")
       expect(page).to have_link("Checkout")
-
-      click_on "Checkout"
-
-      expect(current_path).to eq("/orders/new")
     end
   end
 

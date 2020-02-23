@@ -45,6 +45,8 @@ RSpec.describe "as a visitor I can log in" do
     end
 
     it "as a merchant user I see a field to enter my email and password" do
+      bike_shop = Merchant.create(name: "Brian's Bike Shop", address: '123 Bike Rd.', city: 'Richmond', state: 'VA', zip: 11234)
+
       merchant_user = User.create({
         name: "Maria R",
         address: "321 Notmain Rd.",
@@ -53,7 +55,8 @@ RSpec.describe "as a visitor I can log in" do
         zip: "80020",
         email: "mariar@example.com",
         password: "supersecure1",
-        role: 1
+        role: 1,
+        merchant_id: bike_shop.id
         })
 
         visit "/login"

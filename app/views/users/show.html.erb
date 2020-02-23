@@ -5,4 +5,10 @@
 <p><%= @user.zip %></p>
 <p><%= @user.email %></p>
 <%= link_to "Edit Profile", '/profile/edit' %>
-<%= link_to "Update Password", '/password/edit' %>
+<%= link_to "Update Password", '/password/edit' %><br>
+
+<% if @user.has_order? %>
+  <%= link_to "My Orders", "/profile/orders" %>
+<% else %>
+  <h3>You Have No Orders</h3>
+<% end %>
