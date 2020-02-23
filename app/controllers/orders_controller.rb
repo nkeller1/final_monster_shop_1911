@@ -1,19 +1,10 @@
 class OrdersController <ApplicationController
 
   def new
-
   end
 
   def show
     @order = Order.find(params[:id])
-  end
-
-  def index
-    if current_user && current_user.default_user?
-      @orders = current_user.orders
-    else
-      render 'errors/404'
-    end
   end
 
   def create
@@ -27,8 +18,9 @@ class OrdersController <ApplicationController
           price: item.price
           })
       end
+      flash[:success] = "Order was successfully created!"
       session.delete(:cart)
-      redirect_to "/orders/#{order.id}"
+      redirect_to "/profile/orders"
     else
       flash[:notice] = "Please complete address form to create an order."
       render :new
