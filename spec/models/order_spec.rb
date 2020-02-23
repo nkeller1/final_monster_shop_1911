@@ -40,6 +40,10 @@ describe Order, type: :model do
       expect(@order_1.grandtotal).to eq(230)
     end
 
+    it "total_quantity" do
+      expect(@order_1.total_quantity).to eq(5)
+    end
+
     it 'test order status' do
       default_user_1 = User.create!({
         name: "Paul D",
