@@ -6,7 +6,7 @@ class CreateItemOrders < ActiveRecord::Migration[5.1]
       t.float :price
       t.integer :quantity
 
-      t.timestamps 
+      t.timestamps
     end
   end
 end

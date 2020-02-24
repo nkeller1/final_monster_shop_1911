@@ -19,8 +19,17 @@ describe Order, type: :model do
       @meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
       @brian = Merchant.create(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80210)
 
-      @tire = @meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
-      @pull_toy = @brian.items.create(name: "Pull Toy", description: "Great pull toy!", price: 10, image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg", inventory: 32)
+      @tire = @meg.items.create(name: "Gatorskins",
+            description: "They'll never pop!",
+            price: 100,
+            image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588",
+            inventory: 10)
+      @pull_toy = @brian.items.create(name: "Pull Toy",
+            description: "Great pull toy!",
+            price: 10,
+            image: "http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg",
+            inventory: 32)
+
       @default_user_1 = User.create({
         name: "Paul D",
         address: "123 Main St.",
@@ -31,10 +40,15 @@ describe Order, type: :model do
         password: "supersecure1",
         role: 0
         })
-      @order_1 = @default_user_1.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
+      @order_1 = @default_user_1.orders.create!(name: 'Meg',
+        address: '123 Stang Ave',
+        city: 'Hershey',
+        state: 'PA',
+        zip: 17033,
+        status: 0)
 
-      @order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
-      @order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 3)
+      @item_order_1 = @order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2, fulfilled: true)
+      @item_order_2 = @order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 3, fulfilled: false)
     end
     it 'grandtotal' do
       expect(@order_1.grandtotal).to eq(230)
@@ -61,11 +75,31 @@ describe Order, type: :model do
 
       order_2 = default_user_1.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033, status: 1)
 
-      expect(order_2.status).to eq("Shipped")
+      expect(order_2.status).to eq("Packaged")
 
       order_3 = default_user_1.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033, status: 2)
 
-      expect(order_3.status).to eq("Cancelled")
+      expect(order_3.status).to eq("Shipped")
+
+      order_4 = default_user_1.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033, status: 3)
+
+      expect(order_4.status).to eq("Cancelled")
+    end
+
+    it "cancel" do
+      expect(@item_order_1.item.inventory).to eq(10)
+      expect(@item_order_1.fulfilled).to eq(true)
+
+       @order_1.cancel
+
+       @order_1.reload
+
+       expect(@order_1.status).to eq('Cancelled')
+       
+       @order_1.item_orders.each do |item_order|
+         expect(@item_order_1.fulfilled).to eq(false)
+         expect(@item_order_1.item.inventory).to eq(12)
+       end
     end
   end
 end
