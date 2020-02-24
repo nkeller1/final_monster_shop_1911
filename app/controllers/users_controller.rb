@@ -20,7 +20,7 @@ class UsersController < ApplicationController
     if current_user.nil?
       render file: "/public/404"
     else
-      @user = User.find(session[:user_id])
+      @user = User.find(current_user.id)
     end
   end
 
