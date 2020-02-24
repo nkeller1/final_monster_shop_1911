@@ -55,11 +55,13 @@ Rails.application.routes.draw do
   delete '/profile/orders/:order_id', to: 'user_orders#destroy'
 
   namespace :merchant do
-    get '/', to: 'dashboard#index'
+    get '/', to: 'dashboard#show'
+    get '/items', to: 'dashboard#index'
   end
 
   namespace :admin do
     get '/', to: 'dashboard#index'
     patch '/orders/:order_id', to: 'dashboard#update'
+    get '/merchants/:merchant_id', to: 'merchants#show'
   end
 end

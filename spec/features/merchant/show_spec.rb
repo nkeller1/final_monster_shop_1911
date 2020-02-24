@@ -1,22 +1,18 @@
 require 'rails_helper'
 
-describe Merchant, type: :model do
-  describe "validations" do
-    it { should validate_presence_of :name }
-    it { should validate_presence_of :address }
-    it { should validate_presence_of :city }
-    it { should validate_presence_of :state }
-    it { should validate_presence_of :zip }
-  end
-
-  describe "relationships" do
-    it {should have_many :items}
-  end
-
-  describe 'instance methods' do
+RSpec.describe "on a merchant dashboard show page" do
+  context "as a merchant employee" do
     before(:each) do
-      @meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
-      @tire = @meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
+      @admin_user = User.create(
+          name: "Dave H",
+          address: "321 Notmain Rd.",
+          city: "Broomfield",
+          state: "CO",
+          zip: "80020",
+          email: "davidh@example.com",
+          password: "supersecure1",
+          role: 2)
+
       @bike_shop = Merchant.create(
         name: "Brian's Bike Shop",
         address: '123 Bike Rd.',
@@ -41,6 +37,7 @@ describe Merchant, type: :model do
         password: "supersecure1",
         role: 1,
         merchant: @bike_shop)
+
       @default_user_1 = User.create({
           name: "Paul D",
           address: "123 Main St.",
@@ -116,7 +113,7 @@ describe Merchant, type: :model do
           state: 'CO',
           zip: 32525,
           user: @default_user_3,
-          status: 1)
+          status: 0)
         @order_4 = Order.create(
           name: 'Meg',
           address: '123 Stang Ave',
@@ -151,60 +148,77 @@ describe Merchant, type: :model do
           quantity: 1,
           order: @order_4)
     end
-    it 'no_orders' do
-      default_user_1 = User.create({
-        name: "Paul D",
-        address: "123 Main St.",
-        city: "Broomfield",
-        state: "CO",
-        zip: "80020",
-        email: "pauld@example.com",
-        password: "supersecure1",
-        role: 0
-        })
-      expect(@meg.no_orders?).to eq(true)
+    it "I can see the name and address of the merchant I work for" do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_user)
 
-      order_1 = default_user_1.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
-      item_order_1 = order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
-
-      expect(@meg.no_orders?).to eq(false)
+      visit "/merchant"
+      expect(page).to have_content(@bike_shop.name)
+      expect(page).to have_content(@bike_shop.address)
+      expect(page).to have_content(@bike_shop.city)
+      expect(page).to have_content(@bike_shop.state)
+      expect(page).to have_content(@bike_shop.zip)
     end
 
-    it 'item_count' do
-      chain = @meg.items.create(name: "Chain", description: "It'll never break!", price: 30, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 22)
+    it "I can see pending orders containing items I sell" do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_user)
 
-      expect(@meg.item_count).to eq(2)
+      visit "/merchant"
+
+      within("#order-#{@order_1.id}") do
+        expect(page).to have_content(@order_1.name)
+        expect(page).to have_link(@order_1.id)
+        expect(page).to have_content(@order_1.created_at)
+        expect(page).to have_content(@item_order_1.quantity)
+        expect(page).to have_content(@order_1.grandtotal)
+      end
+
+      within("#order-#{@order_2.id}") do
+        expect(page).to have_content(@order_2.name)
+        expect(page).to have_content(@order_2.created_at)
+        expect(page).to have_content(@item_order_2.quantity)
+        expect(page).to have_content(@order_2.grandtotal)
+        expect(page).to have_link(@order_2.id)
+        expect(page).to_not have_content(@order_3.name)
+      end
     end
 
-    it 'average_item_price' do
-      chain = @meg.items.create(name: "Chain", description: "It'll never break!", price: 40, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 22)
+    it "I can click a link on my dashboard that takes me to view my items" do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_user)
 
-      expect(@meg.average_item_price).to eq(70)
+      visit "/merchant"
+      click_link "My Items"
+      expect(current_path).to eq("/merchant/items")
     end
 
-    it 'distinct_cities' do
-      chain = @meg.items.create(name: "Chain", description: "It'll never break!", price: 40, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 22)
-      default_user_1 = User.create({
-        name: "Paul D",
-        address: "123 Main St.",
-        city: "Broomfield",
-        state: "CO",
-        zip: "80020",
-        email: "pauld@example.com",
-        password: "supersecure1",
-        role: 0
-        })
-      order_1 = Order.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033, user_id: "#{default_user_1.id}")
-      order_2 = Order.create!(name: 'Brian', address: '123 Brian Ave', city: 'Denver', state: 'CO', zip: 17033, user_id: "#{default_user_1.id}")
-      order_3 = Order.create!(name: 'Dao', address: '123 Mike Ave', city: 'Denver', state: 'CO', zip: 17033, user_id: "#{default_user_1.id}")
-      order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
-      order_2.item_orders.create!(item: chain, price: chain.price, quantity: 2)
-      order_3.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
+    context "as an admin user" do
+      it "I can see everything a merchant would see" do
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin_user)
 
-      expect(@meg.distinct_cities).to eq(["Denver","Hershey"])
-    end
-    it "can get pending orders" do
-      expect(@bike_shop.pending_orders).to eq([@order_1, @order_2])
+        visit "/merchants"
+        click_link "#{@bike_shop.name}"
+        expect(current_path).to eq("/admin/merchants/#{@bike_shop.id}")
+        
+        expect(page).to have_content(@bike_shop.name)
+        expect(page).to have_content(@bike_shop.address)
+        expect(page).to have_content(@bike_shop.city)
+        expect(page).to have_content(@bike_shop.state)
+        expect(page).to have_content(@bike_shop.zip)
+
+        within("#order-#{@order_1.id}") do
+          expect(page).to have_content(@order_1.name)
+          expect(page).to have_link(@order_1.id)
+          expect(page).to have_content(@order_1.created_at)
+          expect(page).to have_content(@item_order_1.quantity)
+          expect(page).to have_content(@order_1.grandtotal)
+        end
+      end
     end
   end
 end
+# User Story 37, Admin can see a merchant's dashboard
+#
+# As an admin user
+# When I visit the merchant index page ("/merchants")
+# And I click on a merchant's name,
+# Then my URI route should be ("/admin/merchants/6")
+# Then I see everything that merchant would see

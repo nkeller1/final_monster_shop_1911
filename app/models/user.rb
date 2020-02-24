@@ -1,5 +1,7 @@
 class User < ApplicationRecord
   validates_presence_of :name, :address, :city, :state, :zip
+  belongs_to :merchant, optional: true
+  validates_presence_of :merchant, if: :merchant_id_present?
   validates :email, presence: true, uniqueness: true
   validates :password, confirmation: { presence: true, case_sensitive: true }
 
@@ -11,4 +13,9 @@ class User < ApplicationRecord
   def has_order?
     self.orders.count > 0
   end
+
+  private
+    def merchant_id_present?
+      merchant_id.present?
+    end
 end

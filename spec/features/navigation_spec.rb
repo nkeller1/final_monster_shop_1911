@@ -113,6 +113,7 @@ RSpec.describe 'Site Navigation' do
 
     describe "As a merchant user" do
       before(:each) do
+        @bike_shop = Merchant.create(name: "Brian's Bike Shop", address: '123 Bike Rd.', city: 'Richmond', state: 'VA', zip: 11234)
         @merchant_user = User.create({
           name: "Maria R",
           address: "321 Notmain Rd.",
@@ -121,11 +122,12 @@ RSpec.describe 'Site Navigation' do
           zip: "80020",
           email: "mariar@example.com",
           password: "supersecure1",
-          role: 1
+          role: 1,
+          merchant_id: @bike_shop.id
           })
+
       end
       it "I can see default user links as well as link to merchant dashboard" do
-
           visit "/login"
           fill_in :email, with: @merchant_user[:email]
           fill_in :password, with: "supersecure1"

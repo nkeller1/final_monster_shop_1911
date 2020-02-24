@@ -2,6 +2,19 @@ require 'rails_helper'
 
 RSpec.describe 'merchant new page', type: :feature do
   describe 'As a user' do
+    before(:each) do
+      @admin_user = User.create(
+          name: "Dave H",
+          address: "321 Notmain Rd.",
+          city: "Broomfield",
+          state: "CO",
+          zip: "80020",
+          email: "davidh@example.com",
+          password: "supersecure1",
+          role: 2)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin_user)
+
+    end
     it 'I can create a new merchant' do
       visit '/merchants/new'
 

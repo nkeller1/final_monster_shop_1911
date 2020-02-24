@@ -61,6 +61,16 @@ admin_user = User.create({
   role: 2
   })
 
+  admin_user = User.create(
+      name: "Dave H",
+      address: "321 Notmain Rd.",
+      city: "Broomfield",
+      state: "CO",
+      zip: "80020",
+      email: "davidh@example.com",
+      password: "supersecure1",
+      role: 2)
+
   order_1 = default_user.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
   order_2 = default_user.orders.create!(name: 'Jon', address: '123 Jon Ave', city: 'Cool', state: 'CO', zip: 32525)
   order_3 = default_user.orders.create!(name: 'Jacob', address: '123 Jacob Street', city: 'Places', state: 'WY', zip: 23652)

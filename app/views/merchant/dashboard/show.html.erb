@@ -1,0 +1,15 @@
+<%= @merchant.name %>
+<%= @merchant.address %>
+<%= @merchant.city %>
+<%= @merchant.state %>
+<%= @merchant.zip %>
+<% @merchant.pending_orders.each do |order| %>
+<section class="grid-container" id= 'order-<%=order.id%>'>
+  <%= order.name %>
+  <%= link_to order.id, "/merchant/orders/#{order.id}" %>
+  <%= order.created_at %>
+  <%= order.item_orders.count(:quantity) %>
+  <%= order.grandtotal %>
+</section>
+<% end %>
+<%= link_to "My Items", "/merchant/items" %>
