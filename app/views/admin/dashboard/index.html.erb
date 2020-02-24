@@ -6,5 +6,6 @@
     <%= order.user.name %>
     <%= order.created_at.strftime("%_m/%e/%C") %>
     <%= order.status %>
+    <%= button_to "Ship", "/admin/orders/#{order.id}?status=shipped", method: :patch if order.Packaged?%>
   </section>
 <% end %>
