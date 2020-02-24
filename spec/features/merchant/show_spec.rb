@@ -3,6 +3,16 @@ require 'rails_helper'
 RSpec.describe "on a merchant dashboard show page" do
   context "as a merchant employee" do
     before(:each) do
+      @admin_user = User.create(
+          name: "Dave H",
+          address: "321 Notmain Rd.",
+          city: "Broomfield",
+          state: "CO",
+          zip: "80020",
+          email: "davidh@example.com",
+          password: "supersecure1",
+          role: 2)
+
       @bike_shop = Merchant.create(
         name: "Brian's Bike Shop",
         address: '123 Bike Rd.',
@@ -27,6 +37,7 @@ RSpec.describe "on a merchant dashboard show page" do
         password: "supersecure1",
         role: 1,
         merchant: @bike_shop)
+
       @default_user_1 = User.create({
           name: "Paul D",
           address: "123 Main St.",
@@ -136,11 +147,10 @@ RSpec.describe "on a merchant dashboard show page" do
           price: @dog_food.price,
           quantity: 1,
           order: @order_4)
-
-
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_user)
     end
     it "I can see the name and address of the merchant I work for" do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_user)
+
       visit "/merchant"
       expect(page).to have_content(@bike_shop.name)
       expect(page).to have_content(@bike_shop.address)
@@ -150,6 +160,8 @@ RSpec.describe "on a merchant dashboard show page" do
     end
 
     it "I can see pending orders containing items I sell" do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_user)
+
       visit "/merchant"
       within("#order-#{@order_1.id}") do
         expect(page).to have_content(@order_1.name)
@@ -167,5 +179,39 @@ RSpec.describe "on a merchant dashboard show page" do
         expect(page).to_not have_content(@order_3.name)
       end
     end
+    it "I can click a link on my dashboard that takes me to view my items" do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_user)
+
+      visit "/merchant"
+      click_link "My Items"
+      expect(current_path).to eq("/merchant/items")
+    end
+    context "as an admin user" do
+      it "I can see everything a merchant would see" do
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin_user)
+        visit "/merchants"
+        click_link "#{@bike_shop.name}"
+        expect(current_path).to eq("/admin/merchants/#{@bike_shop.id}")
+        expect(page).to have_content(@bike_shop.name)
+        expect(page).to have_content(@bike_shop.address)
+        expect(page).to have_content(@bike_shop.city)
+        expect(page).to have_content(@bike_shop.state)
+        expect(page).to have_content(@bike_shop.zip)
+        within("#order-#{@order_1.id}") do
+          expect(page).to have_content(@order_1.name)
+          expect(page).to have_link(@order_1.id)
+          expect(page).to have_content(@order_1.created_at)
+          expect(page).to have_content(@item_order_1.quantity)
+          expect(page).to have_content(@order_1.grandtotal)
+        end
+      end
+    end
   end
 end
+# User Story 37, Admin can see a merchant's dashboard
+#
+# As an admin user
+# When I visit the merchant index page ("/merchants")
+# And I click on a merchant's name,
+# Then my URI route should be ("/admin/merchants/6")
+# Then I see everything that merchant would see
