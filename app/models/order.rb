@@ -22,4 +22,11 @@ class Order <ApplicationRecord
       item_order.item.update(inventory: item_order.item.inventory + item_order.quantity)
     end
   end
+
+  def order_fulfilled?
+    order = item_orders.all? do |item_order|
+      item_order.fulfilled == true
+    end
+    self.update(status: 1) if order
+  end
 end

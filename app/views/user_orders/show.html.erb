@@ -6,16 +6,17 @@
 <p>Order Status: <%= @order.status %></p>
 <% @order.items.each do |item| %>
   <section id="item-<%= item.id %>">
-  <p><%= item.name %></p>
-  <p><%= item.description %></p>
+  <p>Item Name: <%= item.name %></p>
+  <p>Item Description: <%= item.description %></p>
   <%= image_tag(item.image) %>
   </section>
 <% end %>
 <% @order.item_orders.each do |item_order| %>
   <section id="item_order-<%= item_order.id %>">
-  <p><%= item_order.quantity %></p>
-  <p><%= item_order.price %></p>
-  <p><%= item_order.subtotal %></p>
+  <p><%= item_order.item.name %></p>
+  <p>Number of items in order: <%= item_order.quantity %></p>
+  <p>Item Price: $<%= item_order.price %></p>
+  <p>Subtotal: $<%= item_order.subtotal %></p>
   </section>
 <% end %>
 <p>Total Items in Order: <%= @order.total_quantity %></p>
