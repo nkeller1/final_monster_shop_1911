@@ -1,0 +1,10 @@
+<% @merchants.each do |merchant| %>
+<section id="merchant-<%= merchant.id %>">
+  <%= merchant.name %>
+  <% if merchant.active? %>
+    <%= button_to 'Disable', "/admin/merchants/#{merchant.id}?active=false", method: :patch %>
+  <% else %>
+    <%= button_to 'Enable', "/admin/merchants/#{merchant.id}?active=true", method: :patch %>
+  <% end %>
+</section>
+<% end %>
