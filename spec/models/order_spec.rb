@@ -69,11 +69,11 @@ describe Order, type: :model do
         password: "supersecure1",
         role: 0
         })
-      order_1 = default_user_1.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033, status: 0)
+      order_1 = default_user_1.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033, status: 1)
 
       expect(order_1.status).to eq("Pending")
 
-      order_2 = default_user_1.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033, status: 1)
+      order_2 = default_user_1.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033, status: 0)
 
       expect(order_2.status).to eq("Packaged")
 
@@ -95,7 +95,7 @@ describe Order, type: :model do
        @order_1.reload
 
        expect(@order_1.status).to eq('Cancelled')
-       
+
        @order_1.item_orders.each do |item_order|
          expect(@item_order_1.fulfilled).to eq(false)
          expect(@item_order_1.item.inventory).to eq(12)

@@ -5,7 +5,7 @@ class Order <ApplicationRecord
   has_many :item_orders
   has_many :items, through: :item_orders
 
-  enum status: %w(Pending Packaged Shipped Cancelled)
+  enum status: %w(Packaged Pending Shipped Cancelled)
 
   def grandtotal
     item_orders.sum('price * quantity')
@@ -24,6 +24,7 @@ class Order <ApplicationRecord
   end
 
   def order_fulfilled?
-    self.update(status: 1) if item_orders.where(fulfilled: false).empty?
+    update(status: 0) if item_orders.where(fulfilled: false).empty?
   end
+
 end

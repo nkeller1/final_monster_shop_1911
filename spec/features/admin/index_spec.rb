@@ -88,23 +88,5 @@ RSpec.describe "Admin Dashboard" do
       expect(page).to have_content(order_4.created_at.strftime("%_m/%e/%C"))
       expect(page).to have_content(order_4.status)
     end
-
   end
 end
-
-# As an admin user
-# When I visit my admin dashboard ("/admin")
-# Then I see all orders in the system.
-# For each order I see the following information:
-#
-# - user who placed the order, which links to admin view of user profile
-# - order id
-# - date the order was created
-#
-# Orders are sorted by "status" in this order:
-#
-# - packaged
-# - pending
-# - shipped
-# - cancelled
-# ```

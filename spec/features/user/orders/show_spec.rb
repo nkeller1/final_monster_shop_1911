@@ -41,7 +41,7 @@ RSpec.describe "As a registered user" do
                 city: 'Hershey',
                 state: 'PA',
                 zip: 17033,
-                status: 0)
+                status: 1)
 
     order_2.item_orders.create!(item: pull_toy, price: pull_toy.price, quantity: 5)
     order_2.item_orders.create!(item: dog_bone, price: dog_bone.price, quantity: 5)
@@ -52,7 +52,7 @@ RSpec.describe "As a registered user" do
                 city: 'Hershey',
                 state: 'PA',
                 zip: 17033,
-                status: 0)
+                status: 1)
 
     tire = bike_shop.items.create(
               name: "Gatorskins",
@@ -270,7 +270,7 @@ RSpec.describe "As a registered user" do
                 role: 0
                 })
 
-    #order status is pending
+    #order status is packaged
     order_1 = default_user_1.orders.create!(
                 name: 'Meg',
                 address: '123 Stang Ave',
