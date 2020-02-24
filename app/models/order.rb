@@ -22,4 +22,8 @@ class Order <ApplicationRecord
       item_order.item.update(inventory: item_order.item.inventory + item_order.quantity)
     end
   end
+
+  def order_fulfilled?
+    self.update(status: 1) if item_orders.where(fulfilled: false).empty?
+  end
 end

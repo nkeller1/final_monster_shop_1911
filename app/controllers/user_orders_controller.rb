@@ -10,6 +10,7 @@ class UserOrdersController < ApplicationController
 
   def show
     @order = Order.find(params[:order_id])
+    @order.order_fulfilled?
   end
 
   def destroy
