@@ -24,9 +24,6 @@ class Order <ApplicationRecord
   end
 
   def order_fulfilled?
-    order = item_orders.all? do |item_order|
-      item_order.fulfilled == true
-    end
-    self.update(status: 1) if order
+    self.update(status: 1) if item_orders.where(fulfilled: false).empty?
   end
 end
