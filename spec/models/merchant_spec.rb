@@ -100,7 +100,7 @@ describe Merchant, type: :model do
           state: 'PA',
           zip: 17033,
           user: @default_user_1,
-          status: 0)
+          status: 1)
         @order_2 = Order.create(
           name: 'Jon',
           address: '123 Jon Ave',
@@ -108,7 +108,7 @@ describe Merchant, type: :model do
           state: 'CO',
           zip: 32525,
           user: @default_user_2,
-          status: 0)
+          status: 1)
         @order_3 = Order.create(
           name: 'Jacob',
           address: '123 Jon Ave',
@@ -116,7 +116,7 @@ describe Merchant, type: :model do
           state: 'CO',
           zip: 32525,
           user: @default_user_3,
-          status: 0)
+          status: 1)
         @order_4 = Order.create(
           name: 'Meg',
           address: '123 Stang Ave',
@@ -124,7 +124,7 @@ describe Merchant, type: :model do
           state: 'PA',
           zip: 17033,
           user: @default_user_1,
-          status: 1)
+          status: 0)
         @item_order_1 = ItemOrder.create(
           item: @wheels,
           price: @wheels.price,

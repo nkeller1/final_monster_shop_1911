@@ -7,4 +7,16 @@ class UserOrdersController < ApplicationController
       render 'errors/404'
     end
   end
+
+  def show
+    @order = Order.find(params[:order_id])
+    @order.order_fulfilled?
+  end
+
+  def destroy
+    order = Order.find(params[:order_id])
+    order.cancel
+    flash[:notice] = "Your Order has been Cancelled. :("
+    redirect_to '/profile'
+  end
 end

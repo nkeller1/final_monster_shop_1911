@@ -9,10 +9,12 @@
 
 <% @orders.each do |order| %>
   <tr>
-  <td><%= link_to order.id, "/orders/#{order.id}" %></td>
+  <section id="orders-<%= order.id %>">
+  <td><%= link_to order.id, "/profile/orders/#{order.id}" %></td>
   <td><%= order.status %></td>
   <td><%= order.created_at.strftime("%_m/%e/%C") %></td>
   <td><%= order.updated_at.strftime("%_m/%e/%C") %></td>
+  </section>
   <section id="total-quantity-<%= order.id %>">
     <td><%= order.total_quantity%></td>
   </section>

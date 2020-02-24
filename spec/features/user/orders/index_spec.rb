@@ -22,7 +22,7 @@ RSpec.describe "As a registered user" do
 
     expect(page).not_to have_content("Pending")
 
-    order_1 = default_user_1.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033, status: 0)
+    order_1 = default_user_1.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033, status: 1)
 
     visit '/profile/orders'
 

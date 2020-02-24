@@ -1,0 +1,11 @@
+<h2>All Orders</h2>
+
+<% @orders.each do |order| %>
+  <section id="orders-<%=order.id%>">
+    <%= order.id %>
+    <%= order.user.name %>
+    <%= order.created_at.strftime("%_m/%e/%C") %>
+    <%= order.status %>
+    <%= button_to "Ship", "/admin/orders/#{order.id}?status=shipped", method: :patch if order.Packaged?%>
+  </section>
+<% end %>

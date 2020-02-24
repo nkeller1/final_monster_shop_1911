@@ -97,7 +97,7 @@ RSpec.describe "on a merchant dashboard show page" do
           state: 'PA',
           zip: 17033,
           user: @default_user_1,
-          status: 0)
+          status: 1)
         @order_2 = Order.create(
           name: 'Jon',
           address: '123 Jon Ave',
@@ -105,7 +105,7 @@ RSpec.describe "on a merchant dashboard show page" do
           state: 'CO',
           zip: 32525,
           user: @default_user_2,
-          status: 0)
+          status: 1)
         @order_3 = Order.create(
           name: 'Jacob',
           address: '123 Jon Ave',
@@ -121,7 +121,7 @@ RSpec.describe "on a merchant dashboard show page" do
           state: 'PA',
           zip: 17033,
           user: @default_user_1,
-          status: 1)
+          status: 0)
         @item_order_1 = ItemOrder.create(
           item: @wheels,
           price: @wheels.price,
@@ -163,6 +163,7 @@ RSpec.describe "on a merchant dashboard show page" do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_user)
 
       visit "/merchant"
+
       within("#order-#{@order_1.id}") do
         expect(page).to have_content(@order_1.name)
         expect(page).to have_link(@order_1.id)
@@ -170,6 +171,7 @@ RSpec.describe "on a merchant dashboard show page" do
         expect(page).to have_content(@item_order_1.quantity)
         expect(page).to have_content(@order_1.grandtotal)
       end
+
       within("#order-#{@order_2.id}") do
         expect(page).to have_content(@order_2.name)
         expect(page).to have_content(@order_2.created_at)
@@ -179,6 +181,7 @@ RSpec.describe "on a merchant dashboard show page" do
         expect(page).to_not have_content(@order_3.name)
       end
     end
+
     it "I can click a link on my dashboard that takes me to view my items" do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_user)
 
@@ -186,17 +189,21 @@ RSpec.describe "on a merchant dashboard show page" do
       click_link "My Items"
       expect(current_path).to eq("/merchant/items")
     end
+
     context "as an admin user" do
       it "I can see everything a merchant would see" do
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin_user)
+
         visit "/merchants"
         click_link "#{@bike_shop.name}"
         expect(current_path).to eq("/admin/merchants/#{@bike_shop.id}")
+        
         expect(page).to have_content(@bike_shop.name)
         expect(page).to have_content(@bike_shop.address)
         expect(page).to have_content(@bike_shop.city)
         expect(page).to have_content(@bike_shop.state)
         expect(page).to have_content(@bike_shop.zip)
+
         within("#order-#{@order_1.id}") do
           expect(page).to have_content(@order_1.name)
           expect(page).to have_link(@order_1.id)
