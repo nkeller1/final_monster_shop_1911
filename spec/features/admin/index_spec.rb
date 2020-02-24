@@ -89,4 +89,55 @@ RSpec.describe "Admin Dashboard" do
       expect(page).to have_content(order_4.status)
     end
   end
+
+  it "I see any packaged orders ready to ship" do
+    default_user = User.create({
+      name: "Default User",
+      address: "123 Main St.",
+      city: "Broomfield",
+      state: "CO",
+      zip: "80020",
+      email: "default@example.com",
+      password: "password",
+      role: 0
+      })
+
+    admin_user = User.create({
+      name: "Admin User",
+      address: "123 Main St.",
+      city: "Broomfield",
+      state: "CO",
+      zip: "80020",
+      email: "admin@example.com",
+      password: "password",
+      role: 2
+      })
+
+    order_1 = default_user.orders.create!(
+      name: 'Meg',
+      address: '123 Stang Ave',
+      city: 'Hershey',
+      state: 'PA',
+      zip: 17033,
+      status: 0)
+
+    order_2 = default_user.orders.create!(
+      name: 'Jon',
+      address: '123 Jon Ave',
+      city: 'Cool',
+      state: 'CO',
+      zip: 32525,
+      status: 0)
+
+
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(admin_user)
+
+    visit '/admin'
+
+    within "#orders-#{order_2.id}" do
+      expect(page).to have_content("Packaged")
+      click_on "Ship"
+      expect(page).to have_content("Shipped")
+    end
+  end
 end
