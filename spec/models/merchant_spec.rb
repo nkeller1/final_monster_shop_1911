@@ -51,47 +51,47 @@ describe Merchant, type: :model do
           password: "supersecure1",
           role: 0
           })
-          @default_user_2 = User.create({
-            name: "Default User",
-            address: "123 Main St.",
-            city: "Broomfield",
-            state: "CO",
-            zip: "80020",
-            email: "default@example.com",
-            password: "password",
-            role: 0
-            })
-            @default_user_2 = User.create({
-              name: "Jacob",
-              address: "123 Main St.",
-              city: "Broomfield",
-              state: "CO",
-              zip: "80020",
-              email: "defaulttt@example.com",
-              password: "password",
-              role: 0
-              })
-        @wheels = Item.create(
-          name: "Gatorskins",
-          description: "They'll never pop!",
-          price: 100,
-          image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588",
-          inventory: 12,
-          merchant: @bike_shop)
-         @pencil = Item.create(
-           name: "Yellow Pencil",
-           description: "You can write on paper with it!",
-           price: 2,
-           image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg",
-           inventory: 100,
-           merchant: @bike_shop)
-         @dog_food = Item.create(
-            name: "Ol' Roy",
-            description: "You can write on paper with it!",
-            price: 45,
-            image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg",
-            inventory: 100,
-            merchant: @dog_shop)
+      @default_user_2 = User.create({
+        name: "Default User",
+        address: "123 Main St.",
+        city: "Broomfield",
+        state: "CO",
+        zip: "80020",
+        email: "default@example.com",
+        password: "password",
+        role: 0
+        })
+      @default_user_2 = User.create({
+        name: "Jacob",
+        address: "123 Main St.",
+        city: "Broomfield",
+        state: "CO",
+        zip: "80020",
+        email: "defaulttt@example.com",
+        password: "password",
+        role: 0
+        })
+      @wheels = Item.create(
+        name: "Gatorskins",
+        description: "They'll never pop!",
+        price: 100,
+        image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588",
+        inventory: 12,
+        merchant: @bike_shop)
+     @pencil = Item.create(
+       name: "Yellow Pencil",
+       description: "You can write on paper with it!",
+       price: 2,
+       image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg",
+       inventory: 100,
+       merchant: @bike_shop)
+     @dog_food = Item.create(
+        name: "Ol' Roy",
+        description: "You can write on paper with it!",
+        price: 45,
+        image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg",
+        inventory: 100,
+        merchant: @dog_shop)
 
         @order_1 = Order.create(
           name: 'Meg',
