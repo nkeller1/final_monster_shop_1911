@@ -20,3 +20,4 @@
 <% end %>
 <p>Total Items in Order: <%= @order.total_quantity %></p>
 <p>Grand Total: $<%= @order.grandtotal %></p>
+<%= button_to "Cancel Order", "/profile/orders/#{@order.id}", method: :delete if @order.status != "Shipped" %>
