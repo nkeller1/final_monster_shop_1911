@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe "As a registered user" do
   it "I can see pending status after creating order" do
-
     bike_shop = Merchant.create(
                 name: "Meg's Bike Shop",
                 address: '123 Bike Rd.',
@@ -116,5 +115,139 @@ RSpec.describe "As a registered user" do
     end
     expect(page).to have_content("Total Items in Order: 5")
     expect(page).to have_content("Grand Total: $260")
+  end
+
+  it "I can cancel an order as a user" do
+    bike_shop = Merchant.create(
+                name: "Meg's Bike Shop",
+                address: '123 Bike Rd.',
+                city: 'Denver',
+                state: 'CO',
+                zip: 80203)
+    default_user_1 = User.create!({
+                name: "Paul D",
+                address: "123 Main St.",
+                city: "Broomfield",
+                state: "CO",
+                zip: "80020",
+                email: "mariar@example.com",
+                password: "supersecure1",
+                role: 0
+                })
+    order_1 = default_user_1.orders.create!(
+                name: 'Meg',
+                address: '123 Stang Ave',
+                city: 'Hershey',
+                state: 'PA',
+                zip: 17033,
+                status: 0)
+
+    tire = bike_shop.items.create(
+              name: "Gatorskins",
+              description: "They'll never pop!",
+              price: 100,
+              image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588",
+              inventory: 10)
+
+    paper = bike_shop.items.create(
+              name: "Lined Paper",
+              description: "Great for writing on!",
+              price: 20,
+              image: "https://cdn.vertex42.com/WordTemplates/images/printable-lined-paper-wide-ruled.png",
+              inventory: 0)
+
+    item_order_1 = order_1.item_orders.create!(
+                item: tire,
+                price: tire.price,
+                quantity: 2)
+
+    item_order_2 = order_1.item_orders.create!(
+                item: paper,
+                price: paper.price,
+                quantity: 3,
+                fulfilled: true)
+
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(default_user_1)
+
+    visit '/profile/orders'
+
+    click_link("#{order_1.id}")
+
+    click_button("Cancel Order")
+    expect(current_path).to eq('/profile')
+    expect(page).to have_content("Your Order has been Cancelled. :(")
+
+    tire.reload
+    paper.reload
+    order_1.reload
+    item_order_2.reload
+
+    visit '/profile/orders'
+
+    expect(page).to have_content("Cancelled")
+    expect(tire.inventory).to eq(12)
+    expect(paper.inventory).to eq(3)
+    expect(item_order_2.fulfilled).to eq(false)
+  end
+
+  it "I cannot see button if my order has been shipped" do
+    bike_shop = Merchant.create(
+                name: "Meg's Bike Shop",
+                address: '123 Bike Rd.',
+                city: 'Denver',
+                state: 'CO',
+                zip: 80203)
+
+    default_user_1 = User.create!({
+                name: "Paul D",
+                address: "123 Main St.",
+                city: "Broomfield",
+                state: "CO",
+                zip: "80020",
+                email: "mariar@example.com",
+                password: "supersecure1",
+                role: 0
+                })
+
+    order_1 = default_user_1.orders.create!(
+                name: 'Meg',
+                address: '123 Stang Ave',
+                city: 'Hershey',
+                state: 'PA',
+                zip: 17033,
+                status: 2)
+
+    tire = bike_shop.items.create(
+              name: "Gatorskins",
+              description: "They'll never pop!",
+              price: 100,
+              image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588",
+              inventory: 10)
+
+    paper = bike_shop.items.create(
+              name: "Lined Paper",
+              description: "Great for writing on!",
+              price: 20,
+              image: "https://cdn.vertex42.com/WordTemplates/images/printable-lined-paper-wide-ruled.png",
+              inventory: 0)
+
+    item_order_1 = order_1.item_orders.create!(
+                item: tire,
+                price: tire.price,
+                quantity: 2)
+
+    item_order_2 = order_1.item_orders.create!(
+                item: paper,
+                price: paper.price,
+                quantity: 3,
+                fulfilled: true)
+
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(default_user_1)
+
+    visit '/profile/orders'
+
+    click_link("#{order_1.id}")
+
+    expect(page).not_to have_button("Cancel Order")
   end
 end
