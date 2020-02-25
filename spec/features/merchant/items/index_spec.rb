@@ -58,7 +58,7 @@ RSpec.describe 'Merchant Items Index page' do
 
     visit '/merchant/items'
 
-    within("item-#{pencil.id}") do
+    within("#item-#{pencil.id}") do
       expect(page).to have_content(pencil.name)
       expect(page).to have_content(pencil.description)
       expect(page).to have_content(pencil.price)
@@ -67,28 +67,28 @@ RSpec.describe 'Merchant Items Index page' do
       click_button("Deactivate")
     end
 
-    within("item-#{pencil.id}") do
+    within("#item-#{pencil.id}") do
       expect(page).to have_content("Status: Inactive")
     end
 
     expect(current_path).to eq('/merchant/items')
     expect(page).to have_content("#{pencil.name} has been Deactivated")
 
-    within("item-#{tire.id}") do
-      expect(page).to have_content(tire.name)
-      expect(page).to have_content(tire.description)
-      expect(page).to have_content(tire.price)
-      expect(page).to have_content(tire.inventory)
+    within("#item-#{wheels.id}") do
+      expect(page).to have_content(wheels.name)
+      expect(page).to have_content(wheels.description)
+      expect(page).to have_content(wheels.price)
+      expect(page).to have_content(wheels.inventory)
       expect(page).to have_content("Status: Inactive")
       click_button("Activate")
     end
 
-    within("item-#{tire.id}") do
+    within("#item-#{wheels.id}") do
       expect(page).to have_content("Status: Active")
     end
 
     expect(current_path).to eq('/merchant/items')
-    expect(page).to have_content("#{tire.name} has been Activated")
+    expect(page).to have_content("#{wheels.name} has been Activated")
     expect(page).not_to have_content(dog_food.name)
   end
 end
