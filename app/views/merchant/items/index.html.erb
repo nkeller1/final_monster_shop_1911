@@ -19,6 +19,7 @@
       <p>Status: Inactive</p>
       <%= button_to 'Activate', "/merchant/items/#{item.id}?active=true", method: :post %>
     <% end %>
+    <%= link_to 'Delete', "/merchant/items/#{item.id}", method: :delete if !item.has_been_ordered? %>
   </section>
 <% end %>
 </section>

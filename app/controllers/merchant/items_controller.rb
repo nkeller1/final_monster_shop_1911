@@ -43,6 +43,7 @@ class Merchant::ItemsController < ApplicationController
     item = Item.find(params[:id])
     Review.where(item_id: item.id).destroy_all
     item.destroy
+    flash[:success] = "This item is now deleted."
     redirect_to "/merchant/items"
   end
 
