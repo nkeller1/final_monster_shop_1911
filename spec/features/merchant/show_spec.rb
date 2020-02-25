@@ -48,47 +48,41 @@ RSpec.describe "on a merchant dashboard show page" do
           password: "supersecure1",
           role: 0
           })
-          @default_user_2 = User.create({
-            name: "Default User",
-            address: "123 Main St.",
-            city: "Broomfield",
-            state: "CO",
-            zip: "80020",
-            email: "default@example.com",
-            password: "password",
-            role: 0
-            })
-            @default_user_2 = User.create({
-              name: "Jacob",
-              address: "123 Main St.",
-              city: "Broomfield",
-              state: "CO",
-              zip: "80020",
-              email: "defaulttt@example.com",
-              password: "password",
-              role: 0
-              })
-        @wheels = Item.create(
-          name: "Gatorskins",
-          description: "They'll never pop!",
-          price: 100,
-          image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588",
-          inventory: 12,
-          merchant: @bike_shop)
-         @pencil = Item.create(
-           name: "Yellow Pencil",
-           description: "You can write on paper with it!",
-           price: 2,
-           image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg",
-           inventory: 100,
-           merchant: @bike_shop)
-         @dog_food = Item.create(
-            name: "Ol' Roy",
-            description: "You can write on paper with it!",
-            price: 45,
-            image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg",
-            inventory: 100,
-            merchant: @dog_shop)
+
+      @default_user_2 = User.create({
+        name: "Default User",
+        address: "123 Main St.",
+        city: "Broomfield",
+        state: "CO",
+        zip: "80020",
+        email: "default@example.com",
+        password: "password",
+        role: 0
+        })
+
+      @wheels = Item.create(
+        name: "Gatorskins",
+        description: "They'll never pop!",
+        price: 100,
+        image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588",
+        inventory: 12,
+        merchant: @bike_shop)
+
+       @pencil = Item.create(
+         name: "Yellow Pencil",
+         description: "You can write on paper with it!",
+         price: 2,
+         image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg",
+         inventory: 100,
+         merchant: @bike_shop)
+
+       @dog_food = Item.create(
+          name: "Ol' Roy",
+          description: "You can write on paper with it!",
+          price: 45,
+          image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg",
+          inventory: 100,
+          merchant: @dog_shop)
 
         @order_1 = Order.create(
           name: 'Meg',
@@ -122,36 +116,43 @@ RSpec.describe "on a merchant dashboard show page" do
           zip: 17033,
           user: @default_user_1,
           status: 0)
+
         @item_order_1 = ItemOrder.create(
           item: @wheels,
           price: @wheels.price,
           quantity: 2,
           order: @order_1)
+
         @item_order_2 = ItemOrder.create(
           item: @pencil,
           price: @pencil.price,
           quantity: 1,
           order: @order_2)
+
         @item_order_3 = ItemOrder.create(
           item: @wheels,
           price: @wheels.price,
           quantity: 1,
           order: @order_2)
+
         @item_order_4 = ItemOrder.create(
           item: @dog_food,
           price: @dog_food.price,
           quantity: 1,
           order: @order_3)
+
         @item_order_5 = ItemOrder.create(
           item: @dog_food,
           price: @dog_food.price,
           quantity: 1,
           order: @order_4)
     end
+
     it "I can see the name and address of the merchant I work for" do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_user)
 
       visit "/merchant"
+
       expect(page).to have_content(@bike_shop.name)
       expect(page).to have_content(@bike_shop.address)
       expect(page).to have_content(@bike_shop.city)
@@ -197,7 +198,7 @@ RSpec.describe "on a merchant dashboard show page" do
         visit "/merchants"
         click_link "#{@bike_shop.name}"
         expect(current_path).to eq("/admin/merchants/#{@bike_shop.id}")
-        
+
         expect(page).to have_content(@bike_shop.name)
         expect(page).to have_content(@bike_shop.address)
         expect(page).to have_content(@bike_shop.city)

@@ -56,7 +56,8 @@ Rails.application.routes.draw do
 
   namespace :merchant do
     get '/', to: 'dashboard#show'
-    get '/items', to: 'dashboard#index'
+    get '/items', to: 'items#index'
+    patch '/items/:item_id', to: 'items#activate_deactivate_item'
   end
 
   namespace :admin do
@@ -65,6 +66,5 @@ Rails.application.routes.draw do
     get '/merchants/:merchant_id', to: 'merchants#show'
     get '/merchants', to: 'merchants#index'
     patch '/merchants/:merchant_id', to: 'merchants#enable_disable_merchant'
-
   end
 end
