@@ -39,4 +39,8 @@ class Item <ApplicationRecord
     .order("total_quantity asc")
     .limit(5)
   end
+
+  def has_been_ordered?
+    !ItemOrder.where(item_id: self.id).empty?
+  end
 end
