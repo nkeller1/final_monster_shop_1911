@@ -7,10 +7,13 @@ class Item <ApplicationRecord
   validates_presence_of :name,
                         :description,
                         :price,
-                        :image,
                         :inventory
   validates_inclusion_of :active?, :in => [true, false]
-  validates_numericality_of :price, greater_than: 0
+
+  validates_numericality_of :price, greater_than: -1
+  validates_numericality_of :inventory, greater_than: -1
+
+  before_save :set_defaults
 
   def average_review
     reviews.average(:rating)
@@ -38,5 +41,9 @@ class Item <ApplicationRecord
     .group("items.id")
     .order("total_quantity asc")
     .limit(5)
+  end
+
+  def set_defaults
+    self.image = 'https://cdn.mos.cms.futurecdn.net/rqoDpnCCrdpGFHM6qky3rS-1200-80.jpg' if self.image == "" || nil
   end
 end
