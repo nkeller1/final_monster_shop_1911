@@ -58,6 +58,7 @@ Rails.application.routes.draw do
     get '/', to: 'dashboard#show'
     get '/items', to: 'items#index'
     patch '/items/:item_id', to: 'items#activate_deactivate_item'
+    delete '/items/:item_id', to: 'items#destroy'
   end
 
   namespace :admin do
