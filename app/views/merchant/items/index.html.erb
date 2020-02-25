@@ -1,5 +1,5 @@
 <h1> <%= @merchant.name  %> </h1>
-<p align="center"><%= link_to "Add New Item", "/merchants/#{@merchant.id}/items/new" %></p>
+<p align="center"><%= link_to "Add New Item", "/merchant/items/new" %></p>
 <h2>All Items</h2>
 
 <section class="grid-container">
@@ -14,10 +14,10 @@
     <p>Inventory: <%= item.inventory %> </p>
     <% if item.active? %>
       <p>Status: Active</p>
-      <%= button_to 'Deactivate', "/merchant/items/#{item.id}?active=false", method: :patch %>
+      <%= button_to 'Deactivate', "/merchant/items/#{item.id}?active=false", method: :post %>
     <% else %>
       <p>Status: Inactive</p>
-      <%= button_to 'Activate', "/merchant/items/#{item.id}?active=true", method: :patch %>
+      <%= button_to 'Activate', "/merchant/items/#{item.id}?active=true", method: :post %>
     <% end %>
   </section>
 <% end %>
