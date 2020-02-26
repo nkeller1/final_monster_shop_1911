@@ -16,6 +16,7 @@ RSpec.describe("New Order Page") do
       visit "/items/#{@pencil.id}"
       click_on "Add To Cart"
     end
+
     it "I see all the information about my current cart" do
       default_user = User.create({
         name: "Paul D",
@@ -77,21 +78,47 @@ RSpec.describe("New Order Page") do
         role: 0
         })
 
+        mike = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
+        meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
+        tire = meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
+        paper = mike.items.create(name: "Lined Paper", description: "Great for writing on!", price: 20, image: "https://cdn.vertex42.com/WordTemplates/images/printable-lined-paper-wide-ruled.png", inventory: 1)
+        pencil = mike.items.create(name: "Yellow Pencil", description: "You can write on paper with it!", price: 2, image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg", inventory: 100)
+
+        visit "/items/#{paper.id}"
+        click_on "Add To Cart"
+        visit "/items/#{tire.id}"
+        click_on "Add To Cart"
+        visit "/items/#{pencil.id}"
+        click_on "Add To Cart"
+
       visit "/login"
       fill_in :email, with: default_user[:email]
       fill_in :password, with: "supersecure1"
       click_button "Sign In"
 
+      visit "/items/#{tire.id}"
+      expect(page).to have_content("Inventory: 12")
+
+      visit "/items/#{paper.id}"
+      expect(page).to have_content("Inventory: 1")
 
       visit "/cart"
+
       click_on "Checkout"
 
-      expect(page).to have_field(:name)
-      expect(page).to have_field(:address)
-      expect(page).to have_field(:city)
-      expect(page).to have_field(:state)
-      expect(page).to have_field(:zip)
-      expect(page).to have_button("Create Order")
+      fill_in :name, with: "Billy"
+      fill_in :address, with: "1234 Main St"
+      fill_in :city, with: "Aurora"
+      fill_in :state, with: "CO"
+      fill_in :zip, with: 80014
+      click_button("Create Order")
+
+      visit "/items/#{tire.id}"
+
+      expect(page).to have_content("Inventory: 11")
+
+      visit "/items/#{paper.id}"
+      expect(page).to have_content("Out of Stock")
     end
   end
 end

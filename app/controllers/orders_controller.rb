@@ -17,6 +17,7 @@ class OrdersController <ApplicationController
           quantity: quantity,
           price: item.price
           })
+        item.update(inventory:(item.inventory - quantity))
       end
       flash[:success] = "Order was successfully created!"
       session.delete(:cart)
