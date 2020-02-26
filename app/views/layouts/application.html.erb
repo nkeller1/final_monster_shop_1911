@@ -14,7 +14,8 @@
       <% if current_user.nil? %>
         <%= link_to "All Merchants", "/merchants"%>
       <% elsif current_user.admin_user? %>
-        <%= link_to "All Merchants", "/admin/merchants"%>
+      <%= link_to "All Merchants", "/admin/merchants"%>
+      <%= link_to "Users", "/admin/users"%>
       <% else %>
         <%= link_to "All Merchants", "/merchants"%>
       <% end %>
