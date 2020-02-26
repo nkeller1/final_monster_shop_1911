@@ -5,9 +5,9 @@
 <section class="grid-container">
 <% @merchant.items.each do |item| %>
   <section class = "grid-item" id= 'item-<%=item.id%>'>
-    <h3> <%=link_to item.name, "/items/#{item.id}" %> </h3>
+    <h3> <%=link_to item.name, "/merchant/items/#{item.id}" %> </h3>
     <section id="image">
-      <%= link_to image_tag(item.image), "/items/#{item.id}"%>
+      <%= link_to image_tag(item.image), "/merchant/items/#{item.id}"%>
     </section>
     <p> <%= item.description %> </p>
     <p>Price: <%=number_to_currency(item.price) %> </p>
@@ -19,7 +19,6 @@
       <p>Status: Inactive</p>
       <%= button_to 'Activate', "/merchant/items/#{item.id}?active=true", method: :post %>
     <% end %>
-    <%= link_to 'Delete', "/merchant/items/#{item.id}", method: :delete if !item.has_been_ordered? %>
   </section>
 <% end %>
 </section>

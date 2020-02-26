@@ -56,6 +56,8 @@ Rails.application.routes.draw do
     post '/items/:item_id', to: 'items#activate_deactivate_item'
     resources :items do
     end
+    resources :orders, only: [:show] do
+    end
   end
 
   namespace :admin do
