@@ -7,8 +7,15 @@
 
 
 <% @item_orders.each do |item_order| %>
+<section id =  "item-order-<%=item_order.id%>">
   <%= link_to "#{item_order.item.name}", "/merchant/items/#{item_order.item.id}" %>
   <%=  image_tag (item_order.item.image) %>
   <p>Price: <%=  item_order.item.price %></p>
   <p>Quantity: <%=  item_order.quantity  %> </p>
+  <% if !item_order.fulfilled %>
+    <p> <%= button_to "Fulfill", "/merchant/orders/#{item_order.id}?fulfilled=true", method: :patch%> </p>
+  <% else %>
+    <p> Fulfilled </p>
+  <% end %>
+  </section>
 <% end %>
