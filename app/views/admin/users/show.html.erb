@@ -1,0 +1,14 @@
+<h1><%= @user.name %></h1>
+<p><%= @user.address %></p>
+<p><%= @user.city %></p>
+<p><%= @user.state %></p>
+<p><%= @user.zip %></p>
+<p><%= @user.email %></p>
+
+<%= link_to "Update Password", '/password/edit' %><br>
+
+<% if @user.has_order? %>
+  <%= link_to "#{@user.name} Orders", "/profile/orders" %>
+<% else %>
+  <h3>User Has No Orders</h3>
+<% end %>
