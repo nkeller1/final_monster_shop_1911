@@ -67,6 +67,8 @@ RSpec.describe 'Merchant Items Index page' do
       click_button("Deactivate")
     end
 
+    expect(current_path).to eq('/merchant/items')
+
     within("#item-#{pencil.id}") do
       expect(page).to have_content("Status: Inactive")
     end

@@ -1,0 +1,14 @@
+
+<h2> <%= @order.name  %> </h2>
+<h4> <%=  @order.address  %></h4>
+<h4> <%=  @order.city  %></h4>
+<h4> <%=  @order.state  %></h4>
+<h4> <%=  @order.zip  %></h4>
+
+
+<% @item_orders.each do |item_order| %>
+  <%= link_to "#{item_order.item.name}", "/merchant/items/#{item_order.item.id}" %>
+  <%=  image_tag (item_order.item.image) %>
+  <p>Price: <%=  item_order.item.price %></p>
+  <p>Quantity: <%=  item_order.quantity  %> </p>
+<% end %>

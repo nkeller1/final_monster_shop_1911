@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 20200224224750) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
-    t.integer "status", default: 0
+    t.integer "status", default: 1
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 

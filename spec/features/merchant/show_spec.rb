@@ -92,6 +92,7 @@ RSpec.describe "on a merchant dashboard show page" do
           zip: 17033,
           user: @default_user_1,
           status: 1)
+
         @order_2 = Order.create(
           name: 'Jon',
           address: '123 Jon Ave',
@@ -100,6 +101,7 @@ RSpec.describe "on a merchant dashboard show page" do
           zip: 32525,
           user: @default_user_2,
           status: 1)
+
         @order_3 = Order.create(
           name: 'Jacob',
           address: '123 Jon Ave',
@@ -108,6 +110,7 @@ RSpec.describe "on a merchant dashboard show page" do
           zip: 32525,
           user: @default_user_3,
           status: 0)
+
         @order_4 = Order.create(
           name: 'Meg',
           address: '123 Stang Ave',
