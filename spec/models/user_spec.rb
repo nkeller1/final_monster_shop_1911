@@ -35,5 +35,9 @@ RSpec.describe User, type: :model do
       status: 0)
 
     expect(default_user.has_order?).to eq(true)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 181b99ff1effa7e47247da6757084d7fdc942647
   end
 end

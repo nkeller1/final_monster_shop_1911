@@ -24,6 +24,7 @@ describe Order, type: :model do
             price: 100,
             image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588",
             inventory: 10)
+
       @pull_toy = @brian.items.create(name: "Pull Toy",
             description: "Great pull toy!",
             price: 10,
@@ -40,7 +41,8 @@ describe Order, type: :model do
         password: "supersecure1",
         role: 0
         })
-      @order_1 = @default_user_1.orders.create!(name: 'Meg',
+      @order_1 = @default_user_1.orders.create(
+        name: 'Meg',
         address: '123 Stang Ave',
         city: 'Hershey',
         state: 'PA',
@@ -50,11 +52,12 @@ describe Order, type: :model do
       @item_order_1 = @order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2, fulfilled: true)
       @item_order_2 = @order_1.item_orders.create!(item: @pull_toy, price: @pull_toy.price, quantity: 3, fulfilled: false)
     end
-    it 'grandtotal' do
+
+    it 'can calculate the grandtotal' do
       expect(@order_1.grandtotal).to eq(230)
     end
 
-    it "total_quantity" do
+    it "can count the total_quantity" do
       expect(@order_1.total_quantity).to eq(5)
     end
 
@@ -69,6 +72,7 @@ describe Order, type: :model do
         password: "supersecure1",
         role: 0
         })
+
       order_1 = default_user_1.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033, status: 1)
 
       expect(order_1.status).to eq("Pending")
@@ -100,6 +104,10 @@ describe Order, type: :model do
          expect(@item_order_1.fulfilled).to eq(false)
          expect(@item_order_1.item.inventory).to eq(12)
        end
+    end
+
+    it "can see if an order has been fulfilled" do
+      expect(@order_1.order_fulfilled?).to eq(false)
     end
   end
 end
