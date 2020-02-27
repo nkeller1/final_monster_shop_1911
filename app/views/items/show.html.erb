@@ -19,7 +19,9 @@
       <% end %>
       <%= link_to "Add Review", "/items/#{@item.id}/reviews/new" %>
       <% if @item.inventory >= 1 %>
-        <%= button_to "Add To Cart", "/cart/#{@item.id}", method: :post %>
+        <% if current_user.nil? || !current_user.admin_user? %>
+          <%= button_to "Add To Cart", "/cart/#{@item.id}", method: :post %>
+        <% end %>
       <% else %>
         <p>Item Out of Stock</p>
       <% end %>

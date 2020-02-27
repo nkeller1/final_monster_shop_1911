@@ -24,7 +24,9 @@ class Order <ApplicationRecord
   end
 
   def order_fulfilled?
-    update(status: 0) if item_orders.where(fulfilled: false).empty?
+    if self.item_orders.where(fulfilled: false).empty?
+      self.update(status: 'Packaged')
+    end
   end
 
   def merchant_items_on_order(merchant_id)

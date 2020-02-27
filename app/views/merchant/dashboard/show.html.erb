@@ -7,9 +7,9 @@
 <section class="grid-container" id= 'order-<%=order.id%>'>
   <%= order.name %>
   <%= link_to order.id, "/merchant/orders/#{order.id}" %>
-  <%= order.created_at %>
-  <%= order.item_orders.count(:quantity) %>
-  <%= order.grandtotal %>
+  <%= order.created_at.strftime("%_m/%e/%C") %>
+  <p>Order Count: <%= order.item_orders.count(:quantity) %></p>
+  <p>Grand Total: <%= order.grandtotal %></p>
 </section>
 <% end %>
 <%= link_to "My Items", "/merchant/items" %>

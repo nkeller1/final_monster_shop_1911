@@ -20,7 +20,9 @@
         <%= link_to "All Merchants", "/merchants"%>
       <% end %>
       <%= link_to "All Items", "/items"%>
-      <%= link_to "Cart: #{cart.total_items}", "/cart" %>
+      <% if current_user.nil? || !current_user.admin_user? %>
+      <%= link_to "Cart: #{cart.total_items}", "/cart"  %>
+      <% end %>
       <% if !current_user  %>
         <%= link_to "Register", '/register' %>
         <%= link_to "Login", '/login' %>
