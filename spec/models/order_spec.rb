@@ -105,9 +105,5 @@ describe Order, type: :model do
          expect(@item_order_1.item.inventory).to eq(12)
        end
     end
-
-    it "can see if an order has been fulfilled" do
-      expect(@order_1.order_fulfilled?).to eq(false)
-    end
   end
 end
