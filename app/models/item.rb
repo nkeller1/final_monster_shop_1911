@@ -28,16 +28,18 @@ class Item <ApplicationRecord
   end
 
   def self.top_5_items
-    joins(:item_orders)
-    .select("items.name, sum(item_orders.quantity) as total_quantity")
+    item = Item.where(active?: true)
+    item.joins(:item_orders)
+    .select("items.*, sum(item_orders.quantity) as total_quantity")
     .group("items.id")
     .order("total_quantity desc")
     .limit(5)
   end
 
   def self.bottom_5_items
-    joins(:item_orders)
-    .select("items.name, sum(item_orders.quantity) as total_quantity")
+    item = Item.where(active?: true)
+    item.joins(:item_orders)
+    .select("items.*, sum(item_orders.quantity) as total_quantity")
     .group("items.id")
     .order("total_quantity asc")
     .limit(5)
