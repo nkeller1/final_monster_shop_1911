@@ -8,7 +8,7 @@ class UserOrdersController < ApplicationController
 
   def show
     @order = Order.find(params[:order_id])
-    @order = @order.order_fulfilled?
+    @order.order_fulfilled?
   end
 
   def destroy
