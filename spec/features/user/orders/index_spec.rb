@@ -26,7 +26,7 @@ RSpec.describe "As a registered user" do
 
     visit '/profile/orders'
 
-    expect(page).to have_content("Pending")
+    expect(page).to have_content("Packaged")
   end
 
   it "I can see every order I've made and relevant information" do
@@ -73,6 +73,6 @@ RSpec.describe "As a registered user" do
 
     visit '/profile'
 
-    expect(page).to have_content("The page you were looking for doesn't exist.")  
+    expect(page).to have_content("The page you were looking for doesn't exist.")
   end
 end

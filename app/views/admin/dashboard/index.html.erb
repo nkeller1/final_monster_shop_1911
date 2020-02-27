@@ -3,7 +3,7 @@
 <% @orders.each do |order| %>
   <section id="orders-<%=order.id%>">
     <%= order.id %>
-    <%= order.user.name %>
+    <%= link_to order.user.name, "/admin/users/#{order.user.id}" %>
     <%= order.created_at.strftime("%_m/%e/%C") %>
     <%= order.status %>
     <%= button_to "Ship", "/admin/orders/#{order.id}?status=shipped", method: :patch if order.Packaged?%>

@@ -126,5 +126,17 @@ RSpec.describe "as a visitor I can log in" do
        expect(page).to have_content("You have logged out.")
        expect(page).to have_content("Cart: 0")
     end
+
+    it "displays flash message if login credentials aren't in database" do
+
+      visit "/login"
+
+      fill_in :email, with: "nil_user@example.com"
+      fill_in :password, with: "supersecure1"
+      click_button "Sign In"
+
+      expect(current_path).to eq('/login')
+      expect(page).to have_content("Sorry, your credentials are bad.")
+    end
   end
 end
