@@ -206,5 +206,16 @@ describe Merchant, type: :model do
     it "can get pending orders" do
       expect(@bike_shop.pending_orders).to eq([@order_1, @order_2])
     end
+
+    it "enable" do
+      meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203, active?: false)
+      meg.enable
+      expect(meg.active?).to eq(true)
+    end
+    it "disable" do
+      meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
+      meg.disable
+      expect(meg.active?).to eq(false)
+    end
   end
 end
