@@ -11,7 +11,6 @@
   <tr>
   <section id="orders-<%= order.id %>">
   <td><%= link_to order.id, "/profile/orders/#{order.id}" %></td>
-  <% order.order_fulfilled? %>
   <td><%= order.status %></td>
   <td><%= order.created_at.strftime("%_m/%e/%C") %></td>
   <td><%= order.updated_at.strftime("%_m/%e/%C") %></td>
