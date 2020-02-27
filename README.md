@@ -21,7 +21,7 @@ Ruby on Rails e-commerce website project
 * Paul D. - Slack, @PaulDebevec | GitHub, https://github.com/PaulDebevec
 
 ## Schema
-<img width="954" alt="schema-pic" src="https://ibb.co/GW7NhTT">
+<img width="954" src="https://i.ibb.co/2vqHbNN/Screen-Shot-2020-02-27-at-4-18-12-PM.png" alt="Screen-Shot-2020-02-27-at-4-18-12-PM" border="0"></a>
 
 ## Setup
 
