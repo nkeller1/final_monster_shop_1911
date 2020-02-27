@@ -3,10 +3,6 @@ class OrdersController <ApplicationController
   def new
   end
 
-  def show
-    @order = Order.find(params[:id])
-  end
-
   def create
     order = Order.new(order_params)
     current_user.orders << order
