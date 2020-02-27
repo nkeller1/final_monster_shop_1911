@@ -106,54 +106,6 @@ describe Order, type: :model do
        end
     end
 
-    it "can see if an order has been fulfilled" do
-      order = @default_user_1.orders.create(
-        name: 'Meg',
-        address: '123 Stang Ave',
-        city: 'Hershey',
-        state: 'PA',
-        zip: 17033,
-        status: 1)
-
-      item_order_1 = order.item_orders.create!(
-        item: @tire,
-        price: @tire.price,
-        quantity: 2,
-        fulfilled: false)
-
-      item_order_2 = order.item_orders.create!(
-        item: @pull_toy,
-        price: @pull_toy.price,
-        quantity: 3,
-        fulfilled: false)
-
-      expect(order.item_orders.where(fulfilled: false).empty?).to eq(false)
-
-      order_2 = @default_user_1.orders.create(
-        name: 'Meg',
-        address: '123 Stang Ave',
-        city: 'Hershey',
-        state: 'PA',
-        zip: 17033,
-        status: 0)
-
-      item_order_1 = order_2.item_orders.create!(
-        item: @tire,
-        price: @tire.price,
-        quantity: 2,
-        fulfilled: true)
-
-      item_order_2 = order_2.item_orders.create!(
-        item: @pull_toy,
-        price: @pull_toy.price,
-        quantity: 3,
-        fulfilled: true)
-
-
-      expect(order_2.status).to eq("Packaged")
-      expect(order_2.order_fulfilled?).to eq(true)
-    end
-
     it "can test merchant items on orders" do
       merchant_id = @pull_toy.merchant_id
 

@@ -23,12 +23,6 @@ class Order <ApplicationRecord
     end
   end
 
-  def order_fulfilled?
-    if self.item_orders.where(fulfilled: false).empty?
-      self.update(status: 'Packaged')
-    end
-  end
-
   def merchant_items_on_order(merchant_id)
     item_orders.joins(:item).where(items: {merchant_id: merchant_id})
   end

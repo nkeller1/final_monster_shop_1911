@@ -13,7 +13,7 @@
   <p>Price: <%=  item_order.item.price %></p>
   <p>Quantity: <%=  item_order.quantity  %> </p>
   <% if !item_order.fulfilled %>
-    <p> <%= button_to "Fulfill", "/merchant/orders/#{item_order.id}?fulfilled=true", method: :patch%> </p>
+    <p> <%= button_to "Fulfill", "/merchant/orders/#{@order.id}/item_order/#{item_order.id}", method: :patch%> </p>
   <% else %>
     <p> Fulfilled </p>
   <% end %>
