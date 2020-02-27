@@ -40,7 +40,7 @@ describe Item, type: :model do
       expect(bottom_three).to eq([@review_3,@review_4,@review_5])
     end
 
-    it 'no orders' do
+    it ' can test no orders' do
       default_user_1 = User.create({
         name: "Paul D",
         address: "123 Main St.",
@@ -51,8 +51,11 @@ describe Item, type: :model do
         password: "supersecure1",
         role: 0
         })
+
       expect(@chain.no_orders?).to eq(true)
+
       order = default_user_1.orders.create(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
+
       order.item_orders.create(item: @chain, price: @chain.price, quantity: 2)
       expect(@chain.no_orders?).to eq(false)
     end
@@ -105,20 +108,21 @@ describe Item, type: :model do
          active?: false,
          merchant: bike_shop)
 
-         order_1 = Order.create(
-           name: 'Meg',
-           address: '123 Stang Ave',
-           city: 'Hershey',
-           state: 'PA',
-           zip: 17033,
-           user: default_user_1,
-           status: 1)
+       order_1 = Order.create(
+         name: 'Meg',
+         address: '123 Stang Ave',
+         city: 'Hershey',
+         state: 'PA',
+         zip: 17033,
+         user: default_user_1,
+         status: 1)
 
-         item_order_1 = ItemOrder.create(
-           item: wheels,
-           price: wheels.price,
-           quantity: 2,
-           order: order_1)
+       item_order_1 = ItemOrder.create(
+         item: wheels,
+         price: wheels.price,
+         quantity: 2,
+         order: order_1)
+
     expect(wheels.has_been_ordered?).to eq(true)
     expect(pencil.has_been_ordered?).to eq(false)
     end

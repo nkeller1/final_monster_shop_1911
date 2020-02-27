@@ -30,8 +30,8 @@
       </td>
       <td>
         <center>
-          <p><%=quantity%></p>
           <p><%= button_to "+", cart_path(increment_decrement: "increment", item_id: item.id) %> </p>
+          <p><%=quantity%></p>
           <p><%= button_to "-", cart_path(increment_decrement: "decrement", item_id: item.id) %> </p>
           <p><%= link_to "Remove", "/cart/#{item.id}",method: :delete %></p>
         </center>
