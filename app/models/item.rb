@@ -43,10 +43,6 @@ class Item <ApplicationRecord
     .limit(5)
   end
 
-  def has_been_ordered?
-    !ItemOrder.where(item_id: self.id).empty?
-  end
-
   def set_defaults
     self.image = 'https://cdn.mos.cms.futurecdn.net/rqoDpnCCrdpGFHM6qky3rS-1200-80.jpg' if self.image == "" || nil
   end
