@@ -68,4 +68,11 @@ RSpec.describe "As a registered user" do
       expect(page).to have_content("$200.0")
     end
   end
+
+  it "renders a 404 if the user is not logged in and tries to nav to /profile" do
+
+    visit '/profile'
+
+    expect(page).to have_content("The page you were looking for doesn't exist.")  
+  end
 end

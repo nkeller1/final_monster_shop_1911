@@ -7,7 +7,7 @@ class Merchant::OrdersController < Merchant::BaseController
   def fulfill
     item_order = ItemOrder.find(params[:order_id])
     item_order.update(fulfilled: true)
-    flash[:sweet] = "Item on Order Fulfilled"
+    flash[:success] = "Item on Order Fulfilled"
     redirect_to "/merchant/orders/#{item_order.order.id}"
   end
 end
