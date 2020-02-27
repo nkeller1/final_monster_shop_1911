@@ -1,7 +1,18 @@
+## Turing Project
+Monster Shop - Module 2 Group Project
+
+### Contributors:
+* David H. - Slack, @DavidH | GitHub, https://github.com/DavidHoltkamp1
+* Nathan K. - Slack, @NathanKeller | GitHub, https://github.com/nkeller1
+* Maria R. - Slack, @MariaRonauli | GitHub, https://github.com/mronauli
+* Paul D. - Slack, @PaulDebevec | GitHub, https://github.com/PaulDebevec
+
 # Welcome to Monster Shop!   
-Ruby on Rails e-commerce website project
+Ruby on Rails e-commerce website! 
 
 ## Learning Goals
+* Many-to-many relationship setup
+* Utilize partials and namespacing
 
 ### Rails
 * Practice CRUD functionality and RESTfulness
@@ -13,12 +24,6 @@ Ruby on Rails e-commerce website project
 ### Databases
 * Understand one to many and many to many relational database techniques
 * Practice schema creation and model testing to enforce database requirements
-
-### Contributors:
-* David H. - Slack, @DavidH | GitHub, https://github.com/DavidHoltkamp1
-* Nathan K. - Slack, @NathanKeller | GitHub, https://github.com/nkeller1
-* Maria R. - Slack, @MariaRonauli | GitHub, https://github.com/mronauli
-* Paul D. - Slack, @PaulDebevec | GitHub, https://github.com/PaulDebevec
 
 ## Schema
 <img width="954" src="https://i.ibb.co/2vqHbNN/Screen-Shot-2020-02-27-at-4-18-12-PM.png" alt="Screen-Shot-2020-02-27-at-4-18-12-PM" border="0"></a>
