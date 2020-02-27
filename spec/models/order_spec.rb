@@ -155,7 +155,9 @@ describe Order, type: :model do
     end
 
     it "can test merchant items on orders" do
+      merchant_id = @pull_toy.merchant_id
 
+      expect(@order_1.merchant_items_on_order(merchant_id)).to eq([@item_order_2])
     end
   end
 end

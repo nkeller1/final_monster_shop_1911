@@ -28,7 +28,6 @@ class Order <ApplicationRecord
   end
 
   def merchant_items_on_order(merchant_id)
-    item_orders.joins(:item)
-    .where(items: {merchant_id: merchant_id})
+    item_orders.joins(:item).where(items: {merchant_id: merchant_id})
   end
 end
