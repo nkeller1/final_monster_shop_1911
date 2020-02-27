@@ -137,6 +137,9 @@ RSpec.describe "Admin Dashboard" do
     within "#orders-#{order_2.id}" do
       expect(page).to have_content("Packaged")
       click_on "Ship"
+    end
+    
+    within "#orders-#{order_2.id}" do
       expect(page).to have_content("Shipped")
     end
   end
