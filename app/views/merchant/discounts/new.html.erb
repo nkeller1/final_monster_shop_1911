@@ -11,6 +11,9 @@
     <%= label_tag :percentage %>
     <%= text_field_tag :percentage %>
 
+    <%= label_tag :item %>
+    <%= select("post", "discount_id", @merchant.items.collect {|item| [ item.name, item.id ] }, { include_blank: true }) %>
+
     <%= submit_tag 'Create Discount' %>
   <% end %>
 </center>

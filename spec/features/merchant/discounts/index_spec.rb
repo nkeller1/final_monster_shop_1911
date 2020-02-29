@@ -47,39 +47,20 @@ RSpec.describe 'On Merchant Discount index page' do
        inventory: 100,
        merchant: bike_shop)
 
-      order_1 = Order.create(
-        name: 'Meg',
-        address: '123 Stang Ave',
-        city: 'Hershey',
-        state: 'PA',
-        zip: 17033,
-        user: default_user_1,
-        status: 1)
-
-      item_order_1 = ItemOrder.create(
-        item: wheels,
-        price: wheels.price,
-        quantity: 2,
-        order: order_1)
-
-      item_order_2 = ItemOrder.create(
-        item: pencil,
-        price: pencil.price,
-        quantity: 5,
-        order: order_1)
-
       discount = Discount.create(
         name: 'Pencil Discount',
         quantity_required: 10,
         percentage: 10,
-        merchant: bike_shop
+        merchant: bike_shop,
+        item: pencil
       )
 
       discount_1 = Discount.create(
         name: 'Wheels Discount',
         quantity_required: 5,
         percentage: 5,
-        merchant: bike_shop
+        merchant: bike_shop,
+        item: wheels
       )
 
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant_user)
@@ -137,55 +118,38 @@ it "shows all of the information for each discount in the system" do
      inventory: 100,
      merchant: bike_shop)
 
-    order_1 = Order.create(
-      name: 'Meg',
-      address: '123 Stang Ave',
-      city: 'Hershey',
-      state: 'PA',
-      zip: 17033,
-      user: default_user_1,
-      status: 1)
-
-    item_order_1 = ItemOrder.create(
-      item: wheels,
-      price: wheels.price,
-      quantity: 2,
-      order: order_1)
-
-    item_order_2 = ItemOrder.create(
-      item: pencil,
-      price: pencil.price,
-      quantity: 5,
-      order: order_1)
-
     discount = Discount.create(
       name: 'Pencil Discount',
       quantity_required: 10,
       percentage: 10,
-      merchant: bike_shop
+      merchant: bike_shop,
+      item: pencil
     )
 
     discount_1 = Discount.create(
       name: 'Wheels Discount',
       quantity_required: 5,
       percentage: 5,
-      merchant: bike_shop
+      merchant: bike_shop,
+      item: wheels
     )
 
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant_user)
 
     visit '/merchant/discounts'
-    
+
       within "#discount-#{discount.id}" do
         expect(page).to have_content(discount.name)
         expect(page).to have_content("Quantity Required: 10")
         expect(page).to have_content("Percentage Off: 10%")
+        expect(page).to have_content("Discounted Item: Yellow Pencil")
       end
 
       within "#discount-#{discount_1.id}" do
         expect(page).to have_content(discount_1.name)
         expect(page).to have_content("Quantity Required: 5")
         expect(page).to have_content("Percentage Off: 5%")
+        expect(page).to have_content("Discounted Item: Gatorskins")
       end
   end
 end
