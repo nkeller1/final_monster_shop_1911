@@ -8,6 +8,7 @@
   <p> <%= discount.name %> </p>
   <p>Quantity Required: <%= discount.quantity_required %></p>
   <p>Percentage Off: <%= discount.percentage %>%</p>
+  <p>Discounted Item: <%= link_to discount.item.name, "/merchant/items/#{discount.item.id}" %> </p>
   <%= link_to "Edit Discount", "/merchant/discounts/#{discount.id}/edit" %> <br><br>
   <%= button_to "Delete Discount", "/merchant/discounts/#{discount.id}", method: :delete %>
 </section>
