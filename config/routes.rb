@@ -59,6 +59,8 @@ Rails.application.routes.draw do
     end
     resources :orders, only: [:show] do
     end
+    resources :discounts, except: :show do
+    end
   end
 
   namespace :admin do
