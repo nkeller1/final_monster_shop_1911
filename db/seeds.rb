@@ -88,3 +88,18 @@ admin_user = User.create({
   order_3.item_orders.create(item: dog_bone, price: dog_bone.price, quantity: 5)
   order_4.item_orders.create(item: dog_food, price: dog_food.price, quantity: 7)
   order_5.item_orders.create(item: bike, price: bike.price, quantity: 1)
+
+
+  discount = Discount.create(
+    name: 'Pencil Discount',
+    quantity_required: 10,
+    percentage: 10,
+    merchant: bike_shop
+  )
+
+  discount_1 = Discount.create(
+    name: 'Wheels Discount',
+    quantity_required: 5,
+    percentage: 5,
+    merchant: bike_shop
+  )
