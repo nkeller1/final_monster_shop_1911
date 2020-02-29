@@ -20,8 +20,10 @@ ActiveRecord::Schema.define(version: 20200229181430) do
     t.integer "quantity_required"
     t.integer "percentage"
     t.bigint "merchant_id"
+    t.bigint "item_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_discounts_on_item_id"
     t.index ["merchant_id"], name: "index_discounts_on_merchant_id"
   end
 
@@ -97,6 +99,7 @@ ActiveRecord::Schema.define(version: 20200229181430) do
     t.index ["merchant_id"], name: "index_users_on_merchant_id"
   end
 
+  add_foreign_key "discounts", "items"
   add_foreign_key "discounts", "merchants"
   add_foreign_key "item_orders", "items"
   add_foreign_key "item_orders", "orders"

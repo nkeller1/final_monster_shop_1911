@@ -94,12 +94,14 @@ admin_user = User.create({
     name: 'Pencil Discount',
     quantity_required: 10,
     percentage: 10,
-    merchant: bike_shop
+    merchant: bike_shop,
+    item: pencil
   )
 
   discount_1 = Discount.create(
-    name: 'Wheels Discount',
+    name: 'Tire Discount',
     quantity_required: 5,
     percentage: 5,
-    merchant: bike_shop
+    merchant: bike_shop,
+    item: tire
   )
