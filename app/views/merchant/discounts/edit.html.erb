@@ -1,6 +1,8 @@
 <center>
 <h1>Edit Discount Information</h1>
 
+<h2>Note: you may not edit the item you want to discount. Only the name, quantity required and percentage. </h2>
+<h3>You may create a new discount for a different item.</h3>
   <%= form_tag "/merchant/discounts/#{@discount.id}", method: :patch  do %>
     <%= label_tag :name %>
     <%= text_field_tag :name, "#{@discount.name}"%>

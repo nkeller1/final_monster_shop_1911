@@ -51,14 +51,16 @@ RSpec.describe 'On Merchant Discount Edit page' do
       name: 'Pencil Discount',
       quantity_required: 10,
       percentage: 10,
-      merchant: bike_shop
+      merchant: bike_shop,
+      item: pencil
     )
 
     discount_2 = Discount.create(
       name: 'Wheels Discount',
       quantity_required: 5,
       percentage: 5,
-      merchant: bike_shop
+      merchant: bike_shop,
+      item: wheels
     )
 
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant_user)
@@ -121,7 +123,8 @@ RSpec.describe 'On Merchant Discount Edit page' do
         name: 'Pencil Discount',
         quantity_required: 10,
         percentage: 10,
-        merchant: bike_shop
+        merchant: bike_shop,
+        item: pencil
       )
 
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant_user)
@@ -188,7 +191,8 @@ RSpec.describe 'On Merchant Discount Edit page' do
         name: 'Pencil Discount',
         quantity_required: 10,
         percentage: 10,
-        merchant: bike_shop
+        merchant: bike_shop,
+        item: pencil
       )
 
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant_user)

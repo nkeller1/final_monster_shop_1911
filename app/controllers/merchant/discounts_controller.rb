@@ -4,11 +4,13 @@ class Merchant::DiscountsController < Merchant::BaseController
   end
 
   def new
+    @merchant = Merchant.find(current_user.merchant_id)
   end
 
   def create
     @merchant = Merchant.find(current_user.merchant_id)
     discount = @merchant.discounts.create(discount_params)
+    discount.item_id = params[:item][:item_id]
     if discount.save
       flash[:success] = "#{discount.name} Created Successfully"
       redirect_to "/merchant/discounts"
@@ -34,10 +36,16 @@ class Merchant::DiscountsController < Merchant::BaseController
     end
   end
 
+  def destroy
+    Discount.destroy(params[:id])
+    redirect_to '/merchant/discounts'
+  end
+
 
   private
 
   def discount_params
-    params.permit(:name, :quantity_required, :percentage)
+    params.permit(:name, :quantity_required, :percentage, :item)
   end
+
 end
