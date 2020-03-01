@@ -10,7 +10,7 @@ class Merchant::DiscountsController < Merchant::BaseController
   def create
     @merchant = Merchant.find(current_user.merchant_id)
     discount = @merchant.discounts.create(discount_params)
-    # item = Item.find(params[:item])
+    discount.item_id = params[:item][:item_id]
     if discount.save
       flash[:success] = "#{discount.name} Created Successfully"
       redirect_to "/merchant/discounts"
@@ -47,4 +47,5 @@ class Merchant::DiscountsController < Merchant::BaseController
   def discount_params
     params.permit(:name, :quantity_required, :percentage, :item)
   end
+
 end

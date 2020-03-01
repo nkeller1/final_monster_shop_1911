@@ -1,5 +1,5 @@
 class Discount < ApplicationRecord
-  validates_presence_of :name, :quantity_required, :percentage
+  validates_presence_of :name, :quantity_required, :percentage, :item
 
   belongs_to :merchant
   belongs_to :item

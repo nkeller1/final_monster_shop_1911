@@ -91,27 +91,20 @@ RSpec.describe 'A merchant user can create a new discount' do
     fill_in :name, with: "Frog Discount"
     fill_in :quantity_required, with: 20
     fill_in :percentage, with: 10
-  
-    select "Yellow pencil", from: :item
-    # within "#item-#{pencil.id}" do
-    #   check("Yellow pencil")
-    # end
-    #
+
+    find('#item_item_id').find('option', text: 'Yellow Pencil').select_option
+
     click_on "Create Discount"
 
-    new_discount = Discount.last
-
     expect(current_path).to eq("/merchant/discounts")
-    expect(page).to have_content("#{new_discount.name} Created Successfully")
+    expect(page).to have_content("Frog Discount Created Successfully")
 
-    within "#discount-#{new_discount.id}" do
-      expect(page).to have_content(new_discount.name)
-      expect(page).to have_content(new_discount.quantity_required)
-      expect(page).to have_content(new_discount.percentage)
-    end
+    expect(page).to have_content("Frog Discount")
+    expect(page).to have_content(20)
+    expect(page).to have_content(10)
   end
 
-  xit "show an error if a field is missing information" do
+  it "show an error if a field is missing information" do
     bike_shop = Merchant.create(
       name: "Brian's Bike Shop",
       address: '123 Bike Rd.',
@@ -153,7 +146,9 @@ RSpec.describe 'A merchant user can create a new discount' do
     fill_in :name, with: ""
     fill_in :quantity_required, with: 20
     fill_in :percentage, with: 10
-    select(value = pencil, from: :item)
+    find('#dropdown-list').click
+    find('#dropdown-list option', :text => 'Yellow Pencil').click
+
 
     click_on "Create Discount"
 
