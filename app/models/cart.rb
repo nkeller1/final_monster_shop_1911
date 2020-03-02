@@ -29,9 +29,11 @@ class Cart
   def total
     @contents.sum do |item_id, quantity|
       item = Item.find(item_id)
-      if item.discounts.first.quantity_required != quantity
+      if item.discounts.empty?
         item.price * quantity
-      else
+      elsif item.discounts.first.quantity_required != quantity
+        item.price * quantity
+      elsif item.discounts.first.quantity_required == quantity
         (item.price - (item.price * (item.discounts.first.percentage.to_f / 100))) * quantity.to_f
       end
     end
