@@ -48,7 +48,7 @@
     <% if discount.quantity_required <= quantity  %>
       <p><%= "#{discount.name} Applied" %> </p>
       <p><%= "You have saved #{discount.percentage}%" %>
-      <p>Cart Total: <%= number_to_currency(cart.discounted_rate) %></p>
+      <p>Cart Total: <%= number_to_currency(cart.total) %></p>
     <% else %>
       <p>Total: <%= number_to_currency(cart.total) %></p>
     <% end %>

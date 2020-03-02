@@ -236,11 +236,9 @@ RSpec.describe 'Cart show' do
       click_on "+"
     end
 
-    
     expect(page).to have_content("Pencil Discount Applied")
     expect(page).to have_content("You have saved 10%")
     expect(page).to have_content("Cart Total: $90.00")
     end
   end
-
 end
