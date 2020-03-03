@@ -10,7 +10,7 @@
     <th>Quantity</th>
     <th>Subtotal</th>
   </tr>
-  <% @items.each do |item,quantity| %>
+  <% @items.each do |item, quantity| %>
     <tr id= "cart-item-<%=item.id%>">
       <td>
         <p align = "center">
@@ -26,11 +26,17 @@
         </p>
       </td>
       <td>
-        <p><%=number_to_currency(item.price)%></p>
+        <% if item.discounts.empty? %>
+          <p><%= number_to_currency(item.price) %></p>
+        <% elsif item.discounts.first.quantity_required <= quantity  %>
+          <p><%= number_to_currency(item.discount_price) %></p>
+        <% else %>
+          <p><%=number_to_currency(item.price)%></p>
+        <% end %>
       </td>
       <td>
         <center>
-          <section id='amount-<%=item.id%>'> 
+          <section id='amount-<%=item.id%>'>
           <p><%= button_to "+", cart_path(increment_decrement: "increment", item_id: item.id) %> </p>
           <p><%=quantity%></p>
           <p><%= button_to "-", cart_path(increment_decrement: "decrement", item_id: item.id) %> </p>
