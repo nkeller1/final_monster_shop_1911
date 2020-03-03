@@ -30,10 +30,12 @@
       </td>
       <td>
         <center>
+          <section id='amount-<%=item.id%>'> 
           <p><%= button_to "+", cart_path(increment_decrement: "increment", item_id: item.id) %> </p>
           <p><%=quantity%></p>
           <p><%= button_to "-", cart_path(increment_decrement: "decrement", item_id: item.id) %> </p>
           <p><%= link_to "Remove", "/cart/#{item.id}",method: :delete %></p>
+        </section>
         </center>
         </td>
       <td>
@@ -42,7 +44,18 @@
     </tr>
   <% end %>
 </table>
-  <p>Total: <%= number_to_currency(cart.total) %></p>
+
+<% @items.each do |item, quantity| %>
+  <% item.discounts.each do |discount| %>
+    <% if discount.quantity_required <= quantity  %>
+      <p><%= "#{discount.name} Applied" %> </p>
+      <p><%= "You have saved #{discount.percentage}% off #{discount.item.name}" %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<p>Cart Total: <%= number_to_currency(cart.total) %></p>
+
   <p><%= link_to "Empty Cart", "/cart", method: :delete %></p>
   <% if !current_user.nil? %>
     <p><%= link_to "Checkout", "/orders/new", method: :get %></p>

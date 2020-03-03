@@ -7,7 +7,11 @@ RSpec.describe("Order Creation") do
       @meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
       @tire = @meg.items.create(name: "Gatorskins", description: "They'll never pop!", price: 100, image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588", inventory: 12)
       @paper = @mike.items.create(name: "Lined Paper", description: "Great for writing on!", price: 20, image: "https://cdn.vertex42.com/WordTemplates/images/printable-lined-paper-wide-ruled.png", inventory: 3)
-      @pencil = @mike.items.create(name: "Yellow Pencil", description: "You can write on paper with it!", price: 2, image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg", inventory: 100)
+      @pencil = @mike.items.create(name: "Yellow Pencil",
+        description: "You can write on paper with it!",
+        price: 2,
+        image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg",
+        inventory: 100)
 
       visit "/items/#{@paper.id}"
       click_on "Add To Cart"
@@ -29,26 +33,35 @@ RSpec.describe("Order Creation") do
         role: 0
         })
 
-
       visit "/login"
       fill_in :email, with: default_user[:email]
       fill_in :password, with: "supersecure1"
       click_button "Sign In"
-
-      order_1 = default_user.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
 
       visit "/cart"
       click_on "Checkout"
     end
 
     it 'I can create a new order' do
+      click_on "Logout"
+      
+      mike = Merchant.create(name: "Mike's Print Shop",
+        address: '123 Paper Rd.',
+        city: 'Denver',
+        state: 'CO',
+        zip: 80203)
 
-      click_link "Logout"
+      paper = mike.items.create(
+        name: "Lined Paper",
+        description: "Great for writing on!",
+        price: 20,
+        image: "https://cdn.vertex42.com/WordTemplates/images/printable-lined-paper-wide-ruled.png",
+        inventory: 3)
 
-      mike = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
-      paper = mike.items.create(name: "Lined Paper", description: "Great for writing on!", price: 20, image: "https://cdn.vertex42.com/WordTemplates/images/printable-lined-paper-wide-ruled.png", inventory: 3)
-      pencil = mike.items.create(name: "Yellow Pencil", description: "You can write on paper with it!", price: 2, image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg", inventory: 100)
-
+      pencil = mike.items.create(name: "Yellow Pencil",
+        description: "You can write on paper with it!",
+        price: 2, image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg",
+        inventory: 100)
 
       default_user = User.create({
         name: "example_name",
@@ -60,8 +73,6 @@ RSpec.describe("Order Creation") do
         password: "password",
         role: 0
         })
-
-      order_1 = default_user.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033)
 
       visit "/login"
 
@@ -76,8 +87,8 @@ RSpec.describe("Order Creation") do
 
       visit "/cart"
 
-      click_on "Checkout"
 
+      click_on "Checkout"
 
       within "#order-item-#{paper.id}" do
         expect(page).to have_link(paper.name)
@@ -110,6 +121,7 @@ RSpec.describe("Order Creation") do
     end
 
     it 'i cant create order if info not filled out' do
+
       name = ""
       address = "123 Sesame St."
       city = "NYC"

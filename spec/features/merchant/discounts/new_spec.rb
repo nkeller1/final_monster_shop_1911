@@ -146,9 +146,7 @@ RSpec.describe 'A merchant user can create a new discount' do
     fill_in :name, with: ""
     fill_in :quantity_required, with: 20
     fill_in :percentage, with: 10
-    find('#dropdown-list').click
-    find('#dropdown-list option', :text => 'Yellow Pencil').click
-
+    find('#item_item_id').find('option', text: 'Yellow Pencil').select_option
 
     click_on "Create Discount"
 
