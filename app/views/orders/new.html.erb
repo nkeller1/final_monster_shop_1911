@@ -11,7 +11,15 @@
   <% cart.items.each do |item, quantity| %>
     <tr id='order-item-<%= item.id%>'>
       <td><h2><%= link_to item.name, "/items/#{item.id}" %></h2></td>
-      <td><p><%= number_to_currency(item.price) %></p></td>
+      <td>
+        <% if item.discounts.empty? %>
+          <p><%= number_to_currency(item.price) %></p>
+        <% elsif item.discounts.first.quantity_required <= quantity  %>
+          <p><%= number_to_currency(item.discount_price) %></p>
+        <% else %>
+          <p><%=number_to_currency(item.price)%></p>
+        <% end %>
+      </td>
       <td><p><%= quantity %></p></td>
       <td><p><%= number_to_currency(cart.subtotal(item)) %></p><td>
       <td><p><%= link_to item.merchant.name, "/merchants/#{item.merchant_id}" %></p></td>
