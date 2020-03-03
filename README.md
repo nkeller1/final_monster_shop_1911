@@ -1,3 +1,20 @@
+## Turing Solo Project
+Monster Shop Solo Adaption- Bulk Discounts
+
+See Setup and Databases section below.
+
+## Additional Functionality Added
+* Merchant Users can now create and manage discounts from their dashboards.
+* Bulk discounts are on a per item bases and are assigned to an item upon creation.
+  * Any one item can not have more than one discount applied at any time
+* Each discount has a quantity requirement as well as a percent off the entire order amount.
+* Once a set of items that meets the discount criteria the discounted rate is automatically applied in the cart.
+* Database relationships exist between a merchant and a discount and and item and a discount.
+
+
+## This is currently hosted on Heroku
+  * https://monster-shop-nk.herokuapp.com/
+
 ## Turing Project
 Monster Shop - Module 2 Group Project
 
@@ -8,7 +25,7 @@ Monster Shop - Module 2 Group Project
 * Paul D. - Slack, @PaulDebevec | GitHub, https://github.com/PaulDebevec
 
 # Welcome to Monster Shop!   
-Ruby on Rails e-commerce website! 
+Ruby on Rails e-commerce website!
 
 ## Learning Goals
 * Many-to-many relationship setup
@@ -55,7 +72,7 @@ Ruby on Rails e-commerce website!
 2. Merchant Employee - this user works for a merchant. They can fulfill orders on behalf of their merchant. They also have the same permissions as a regular user (adding items to a cart and checking out).
 3. Admin User - a registered user who has "superuser" access to all areas of the application; user is logged in to perform their work
 
-## Order Progression in thie ecommerce solution
+## Order Progression in this ecommerce solution
 
 1. 'pending' means a user has placed items in a cart and "checked out" to create an order, merchants may or may not have fulfilled any items yet
 2. 'packaged' means all merchants have fulfilled their items for the order, and has been packaged and ready to ship
