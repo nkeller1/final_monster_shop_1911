@@ -159,5 +159,60 @@ describe Item, type: :model do
       expect(Item.bottom_5_items[3]).to eq(pull_toy)
       expect(Item.bottom_5_items[4]).to eq(dog_bone)
     end
+
+    it ".discount_price" do
+      bike_shop = Merchant.create(
+        name: "Brian's Bike Shop",
+        address: '123 Bike Rd.',
+        city: 'Richmond',
+        state: 'VA',
+        zip: 11234)
+
+      dog_shop = Merchant.create(
+        name: "Meg's Dog Shop",
+        address: '123 Dog Rd.',
+        city: 'Denver',
+        state: 'CO',
+        zip: 80014)
+
+      merchant_user = User.create(
+        name: "Maria R",
+        address: "321 Notmain Rd.",
+        city: "Broomfield",
+        state: "CO",
+        zip: "80020",
+        email: "mariaaa@example.com",
+        password: "supersecure1",
+        role: 1,
+        merchant: bike_shop)
+
+      default_user_1 = User.create({
+        name: "Paul D",
+        address: "123 Main St.",
+        city: "Broomfield",
+        state: "CO",
+        zip: "80020",
+        email: "mariar@example.com",
+        password: "supersecure1",
+        role: 0
+        })
+
+      pencil = Item.create(
+         name: "Yellow Pencil",
+         description: "You can write on paper with it!",
+         price: 10,
+         image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg",
+         inventory: 100,
+         merchant: bike_shop)
+
+      discount_1 = Discount.create(
+        name: 'Pencil Discount',
+        quantity_required: 10,
+        percentage: 10,
+        merchant: dog_shop,
+        item: pencil)
+
+      expect(pencil.discount_price).to eq(9.0)  
+    end
   end
 end
