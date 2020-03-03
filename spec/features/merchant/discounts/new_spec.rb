@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'A merchant user can create a new discount' do
   it "can navigate to the discount new page" do
+    Discount.destroy_all
+
     bike_shop = Merchant.create(
       name: "Brian's Bike Shop",
       address: '123 Bike Rd.',
@@ -50,6 +52,7 @@ RSpec.describe 'A merchant user can create a new discount' do
   end
 
   it "can create a new discount" do
+    Discount.destroy_all
     bike_shop = Merchant.create(
       name: "Brian's Bike Shop",
       address: '123 Bike Rd.',
@@ -91,7 +94,6 @@ RSpec.describe 'A merchant user can create a new discount' do
     fill_in :name, with: "Frog Discount"
     fill_in :quantity_required, with: 20
     fill_in :percentage, with: 10
-
     find('#item_item_id').find('option', text: 'Yellow Pencil').select_option
 
     click_on "Create Discount"
@@ -105,6 +107,8 @@ RSpec.describe 'A merchant user can create a new discount' do
   end
 
   it "show an error if a field is missing information" do
+    Discount.destroy_all
+
     bike_shop = Merchant.create(
       name: "Brian's Bike Shop",
       address: '123 Bike Rd.',
@@ -151,5 +155,63 @@ RSpec.describe 'A merchant user can create a new discount' do
     click_on "Create Discount"
 
     expect(page).to have_content("Name can't be blank")
+  end
+
+  it "can't create a second discount for the same item" do
+    Discount.destroy_all
+
+    bike_shop = Merchant.create(
+      name: "Brian's Bike Shop",
+      address: '123 Bike Rd.',
+      city: 'Richmond',
+      state: 'VA',
+      zip: 11234)
+
+    merchant_user = User.create(
+      name: "Maria R",
+      address: "321 Notmain Rd.",
+      city: "Broomfield",
+      state: "CO",
+      zip: "80020",
+      email: "mariaaa@example.com",
+      password: "supersecure1",
+      role: 1,
+      merchant: bike_shop)
+
+    wheels = Item.create(
+      name: "Gatorskins",
+      description: "They'll never pop!",
+      price: 100,
+      image: "https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588",
+      inventory: 12,
+      merchant: bike_shop)
+
+    pencil = Item.create(
+       name: "Yellow Pencil",
+       description: "You can write on paper with it!",
+       price: 10,
+       image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg",
+       inventory: 100,
+       merchant: bike_shop)
+
+    discount = Discount.create(
+       name: 'Pencil Discount',
+       quantity_required: 10,
+       percentage: 10,
+       merchant: bike_shop,
+       item: pencil)
+
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(merchant_user)
+
+    visit '/merchant/discounts/new'
+
+    fill_in :name, with: "Pencil Discount 2"
+    fill_in :quantity_required, with: 20
+    fill_in :percentage, with: 5
+    find('#item_item_id').find('option', text: 'Yellow Pencil').select_option
+
+    click_on "Create Discount"
+
+    expect(page).to have_content("Discount Already Exists for Item. Please Edit or Delete Current Discount")
   end
 end
