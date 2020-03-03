@@ -8,11 +8,13 @@ class OrdersController <ApplicationController
     current_user.orders << order
     if order.save
       cart.items.each do |item, quantity|
-        order.item_orders.create({
-          item: item,
-          quantity: quantity,
-          price: item.price
-          })
+        if item.discounts.empty?
+          normal_order(order, item, quantity)
+        elsif item.discounts.first.quantity_required > quantity
+          normal_order(order, item, quantity)
+        elsif item.discounts.first.quantity_required <= quantity
+          discount_order(order, item, quantity)
+        end
         item.update(inventory:(item.inventory - quantity))
       end
       flash[:success] = "Order was successfully created!"
@@ -24,6 +26,21 @@ class OrdersController <ApplicationController
     end
   end
 
+  def normal_order(order, item, quantity)
+    order.item_orders.create({
+      item: item,
+      quantity: quantity,
+      price: item.price
+      })
+  end
+
+  def discount_order(order, item, quantity)
+    order.item_orders.create({
+      item: item,
+      quantity: quantity,
+      price: (item.price - (item.price * (item.multiple_discounts.first.percentage.to_f / 100)))
+      })
+  end
 
   private
 
