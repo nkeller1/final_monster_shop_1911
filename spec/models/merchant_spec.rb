@@ -202,7 +202,7 @@ describe Merchant, type: :model do
       order_2.item_orders.create!(item: chain, price: chain.price, quantity: 2)
       order_3.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
 
-      expect(@meg.distinct_cities).to eq(["Hershey","Denver"])
+      expect(@meg.distinct_cities).to eq(["Denver","Hershey"])
     end
     it "can get pending orders" do
       expect(@bike_shop.pending_orders).to eq([@order_1, @order_2])
