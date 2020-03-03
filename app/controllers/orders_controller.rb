@@ -7,7 +7,7 @@ class OrdersController <ApplicationController
     order = Order.new(order_params)
     current_user.orders << order
     if order.save
-      cart.items.each do |item,quantity|
+      cart.items.each do |item, quantity|
         order.item_orders.create({
           item: item,
           quantity: quantity,
