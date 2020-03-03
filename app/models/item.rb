@@ -53,4 +53,8 @@ class Item <ApplicationRecord
   def multiple_discounts
     discounts.order('discounts.percentage DESC')
   end
+
+  def discount_price
+    (self.price - (self.price * (self.multiple_discounts.first.percentage.to_f / 100)))
+  end
 end
