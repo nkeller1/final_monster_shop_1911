@@ -49,4 +49,8 @@ class Item <ApplicationRecord
   def set_defaults
     self.image = 'https://cdn.mos.cms.futurecdn.net/rqoDpnCCrdpGFHM6qky3rS-1200-80.jpg' if self.image == "" || nil
   end
+
+  def multiple_discounts
+    discounts.order('discounts.percentage DESC')
+  end
 end

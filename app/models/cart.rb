@@ -34,7 +34,7 @@ class Cart
       elsif item.discounts.first.quantity_required > quantity
         item.price * quantity
       elsif item.discounts.first.quantity_required <= quantity
-        (item.price - (item.price * (item.discounts.first.percentage.to_f / 100))) * quantity.to_f
+        (item.price - (item.price * (item.multiple_discounts.first.percentage.to_f / 100))) * quantity.to_f
       end
     end
   end

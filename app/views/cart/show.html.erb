@@ -47,13 +47,12 @@
   <% item.discounts.each do |discount| %>
     <% if discount.quantity_required <= quantity  %>
       <p><%= "#{discount.name} Applied" %> </p>
-      <p><%= "You have saved #{discount.percentage}%" %>
-      <p>Cart Total: <%= number_to_currency(cart.total) %></p>
-    <% else %>
-      <p>Total: <%= number_to_currency(cart.total) %></p>
+      <p><%= "You have saved #{discount.percentage}% off #{discount.item.name}" %>
     <% end %>
   <% end %>
 <% end %>
+
+<p>Cart Total: <%= number_to_currency(cart.total) %></p>
 
   <p><%= link_to "Empty Cart", "/cart", method: :delete %></p>
   <% if !current_user.nil? %>
