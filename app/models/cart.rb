@@ -31,9 +31,9 @@ class Cart
       item = Item.find(item_id)
       if item.discounts.empty?
         item.price * quantity
-      elsif item.discounts.first.quantity_required != quantity
+      elsif item.discounts.first.quantity_required > quantity
         item.price * quantity
-      elsif item.discounts.first.quantity_required == quantity
+      elsif item.discounts.first.quantity_required <= quantity
         (item.price - (item.price * (item.discounts.first.percentage.to_f / 100))) * quantity.to_f
       end
     end

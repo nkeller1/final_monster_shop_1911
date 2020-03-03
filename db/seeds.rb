@@ -8,6 +8,10 @@
 Merchant.destroy_all
 Item.destroy_all
 User.destroy_all
+Item.destroy_all
+Order.destroy_all
+Discount.destroy_all
+ItemOrders.destroy_all
 
 #merchants
 bike_shop = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80203)
