@@ -3,26 +3,34 @@ Rails.application.routes.draw do
 
   root "welcome#index"
 
-  get "/merchants", to: "merchants#index"
-  get "/merchants/new", to: "merchants#new"
-  get "/merchants/:id", to: "merchants#show"
-  post "/merchants", to: "merchants#create"
-  get "/merchants/:id/edit", to: "merchants#edit"
-  patch "/merchants/:id", to: "merchants#update"
-  delete "/merchants/:id", to: "merchants#destroy"
-
-  get "/items", to: "items#index"
-  get "/items/:id", to: "items#show"
-  get "/items/:id/edit", to: "items#edit"
-  patch "/items/:id", to: "items#update"
+  resources :merchants do
+  end
   get "/merchants/:merchant_id/items", to: "items#index"
+
+  # get "/merchants", to: "merchants#index"
+  # get "/merchants/new", to: "merchants#new"
+  # get "/merchants/:id", to: "merchants#show"
+  # post "/merchants", to: "merchants#create"
+  # get "/merchants/:id/edit", to: "merchants#edit"
+  # patch "/merchants/:id", to: "merchants#update"
+  # delete "/merchants/:id", to: "merchants#destroy"
+
+  resources :items, only: [:index, :show, :edit, :update] do
+  end
 
   get "/items/:item_id/reviews/new", to: "reviews#new"
   post "/items/:item_id/reviews", to: "reviews#create"
+  # get "/items", to: "items#index"
+  # get "/items/:id", to: "items#show"
+  # get "/items/:id/edit", to: "items#edit"
+  # patch "/items/:id", to: "items#update"
+  # get "/merchants/:merchant_id/items", to: "items#index"
 
-  get "/reviews/:id/edit", to: "reviews#edit"
-  patch "/reviews/:id", to: "reviews#update"
-  delete "/reviews/:id", to: "reviews#destroy"
+  resources :reviews, only: [:edit, :update, :destroy] do
+  end
+  # get "/reviews/:id/edit", to: "reviews#edit"
+  # patch "/reviews/:id", to: "reviews#update"
+  # delete "/reviews/:id", to: "reviews#destroy"
 
   post "/cart/:item_id", to: "cart#add_item"
   get "/cart", to: "cart#show"
@@ -30,9 +38,11 @@ Rails.application.routes.draw do
   delete "/cart", to: "cart#empty"
   delete "/cart/:item_id", to: "cart#remove_item"
 
-  get "/orders/new", to: "orders#new"
-  post "/orders", to: "orders#create"
-  get "/orders/:id", to: "orders#show"
+  resources :orders, only: [:new, :create, :show] do
+  end
+  # get "/orders/new", to: "orders#new"
+  # post "/orders", to: "orders#create"
+  # get "/orders/:id", to: "orders#show"
 
   get '/register', to: 'users#new'
   post '/register', to: 'users#create'
@@ -57,10 +67,27 @@ Rails.application.routes.draw do
     patch '/orders/:order_id/item_order/:item_order_id', to: "orders#fulfill"
     resources :items do
     end
+    # get '/items', to: 'items#index'
+    # post '/items', to: 'items#create'
+    # get '/items/new', to: 'items#new'
+    # get '/items/:item_id/edit', to: 'items#edit'
+    # get '/items/:item_id', to: 'items#show'
+    # patch '/items/item_id', to: 'items#update'
+    # post '/items/item_id', to: 'items#update'
+    # post '/items/item_id', to: 'items#destroy'
+
     resources :orders, only: [:show] do
     end
+    # get '/orders/:order_id', to: 'orders#show'
     resources :discounts, except: :show do
     end
+    # get 'discounts', to: 'discounts#index'
+    # post 'discounts', to: 'discounts#create'
+    # get 'discounts', to: 'discounts#new'
+    # get 'discounts/:discount_id', to: 'discounts#edit'
+    # patch 'discounts/:discount_id', to: 'discounts#update'
+    # put 'discounts/:discount_id', to: 'discounts#update'
+    # put 'discounts/:discount_id', to: 'discounts#destroy'
   end
 
   namespace :admin do

@@ -8,9 +8,7 @@ class OrdersController <ApplicationController
     current_user.orders << order
     if order.save
       cart.items.each do |item, quantity|
-        if item.discounts.empty?
-          normal_order(order, item, quantity)
-        elsif item.discounts.first.quantity_required > quantity
+        if item.discounts.empty? || item.discounts.first.quantity_required > quantity
           normal_order(order, item, quantity)
         elsif item.discounts.first.quantity_required <= quantity
           discount_order(order, item, quantity)
