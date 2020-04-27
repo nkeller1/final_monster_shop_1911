@@ -1,0 +1,14 @@
+language:
+  - ruby
+rbenv:
+  - 2.5.2
+addons:
+  postgresql: 9.6
+dist: trusty
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+script:
+- bundle exec rails db:{create,migrate,seed}
+- bundle exec rspec
+services:
+  - postgresql
